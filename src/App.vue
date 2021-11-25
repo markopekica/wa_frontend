@@ -1,11 +1,12 @@
 <template>
   <div id="app">
     <NavigationBar />
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/signIn">Sign in</router-link>
+    </div> -->
+    <router-view class="body"/>
   </div>
 </template>
 
@@ -34,7 +35,7 @@ export default {
   min-height: 150vh;
 }
 
-#nav {
+/* #nav {
   padding: 30px;
 
   a {
@@ -45,9 +46,10 @@ export default {
       color: #42b983;
     }
   }
-}
+} */
 
-router-view {
-  border: 1px solid red;
+.body {
+  /* border: 1px solid red; */
+  padding: 30px 0;
 }
 </style>

@@ -16,7 +16,10 @@
     </div>
     <!-- other icons; sign out, info -->
     <div class="other-icons">
-      <router-link class="rlink" to="" title="sign out">
+      <router-link class="rlink" to="/signIn" title="sign in"
+        ><i class="bi bi-box-arrow-in-right"></i
+      ></router-link>
+      <router-link class="rlink" to="#" title="sign out">
         <i class="bi bi-box-arrow-left"></i>
       </router-link>
       <router-link class="rlink" to="about" title="info">
@@ -34,10 +37,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.router-link-exact-active {
+  color: #42b983 !important;
+}
 .rlink {
   /* invisible border stops jumping in case a border appears on hover */
   border: 1px solid white;
-  padding: 0.5em;
+  color: #111;
   margin: 0.5em;
   max-width: 32px;
 }
@@ -47,35 +53,47 @@ export default {
 }
 @media only screen and (orientation: portrait) {
   .nav {
-    border-bottom: 1px solid #111;
+    border-bottom: 1px solid lightgray;
+    padding: 0.25em;
     div {
       line-height: 2.5em;
     }
-    display: flex;
-    padding: 0.75em 0.25em;
-    justify-content: space-between;
+  }
+  .rlink {
+    padding: 0.5em;
   }
   .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 0 0.5em;
+    width: 64px;
     box-shadow: 1px 0px 0px lightgray;
-    width: 25%;
+    margin-right: 0.5em;
   }
   .other-icons {
     box-shadow: -1px 0px 0px lightgray;
-    width: 25%;
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+@media only screen and (max-width: 340px) and (orientation: portrait) {
+  .other-icons {
+    margin-right: auto;
+    margin-left: 0;
+    box-shadow: none;
   }
 }
 @media only screen and (orientation: landscape) {
   .nav {
-    border-right: 1px solid #111;
+    border-right: 1px solid lightgray;
     float: left;
     min-height: 100vh;
-    width: 42px;
+    /* width: fit-content; */
     position: fixed;
     padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+  }
+  .rlink {
+    padding: 0.25em 0.5em;
   }
   .logo {
     padding: 0.5em;
@@ -86,6 +104,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: fit-content;
   }
   .other-icons {
     box-shadow: 0px -1px 0px lightgray;
