@@ -11,7 +11,8 @@
         ><i class="bi bi-stopwatch"></i
       ></router-link>
       <router-link class="rlink" to="/" title="stats">
-        <i class="bi bi-graph-up"></i>
+        <!-- <i class="bi bi-graph-up"></i> -->
+        <i class="bi bi-bar-chart"></i>
       </router-link>
     </div>
     <!-- other icons; sign out, info -->
@@ -48,7 +49,7 @@ export default {
   max-width: 32px;
 }
 .rlink:hover {
-  border: 1px solid pink;
+  border: 1px solid lightgray;
   border-radius: 6px;
 }
 @media only screen and (orientation: portrait) {
@@ -84,10 +85,10 @@ export default {
 @media only screen and (orientation: landscape) {
   .nav {
     border-right: 1px solid lightgray;
-    float: left;
+    /* float: left; */
     min-height: 100vh;
     /* width: fit-content; */
-    position: fixed;
+    /* position: fixed; */
     padding: 0.5em;
     display: flex;
     flex-direction: column;

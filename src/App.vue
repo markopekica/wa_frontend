@@ -51,5 +51,12 @@ export default {
 .body {
   /* border: 1px solid red; */
   padding: 30px 0;
+  width: 100%;
+}
+@media only screen and (orientation: landscape) {
+  #app {
+    /* body does not overlap navigationBar */
+    display: flex;
+  }
 }
 </style>
