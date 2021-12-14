@@ -32,6 +32,11 @@ const routes = [
     path: '/activity',
     name: 'Activity',
     component: () => import(/* webpackChunkName: "about" */ '../views/Activity.vue')
+  },
+  {
+    path: '/clock',
+    name: 'Clock',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Clock.vue')
   }
 ]
 

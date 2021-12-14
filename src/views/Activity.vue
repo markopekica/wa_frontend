@@ -3,11 +3,11 @@
     <!-- <h1>What are You working on?</h1> -->
     <button
       type="button"
-      class="btn btn-secondary"
+      class="btn btn-primary"
       v-on:click="showNewActivityForm()"
       v-if="!this.displayNewActivityForm"
     >
-      New activity
+      Add new activity
     </button>
     <form v-if="this.displayNewActivityForm">
       <div class="mb-3">

@@ -7,7 +7,7 @@
       <router-link class="rlink" to="/activity" title="activity list">
         <i class="bi bi-list-task"></i
       ></router-link>
-      <router-link class="rlink" to="/timer" title="timer"
+      <router-link class="rlink" to="/clock" title="clock"
         ><i class="bi bi-stopwatch"></i
       ></router-link>
       <router-link class="rlink" to="/" title="stats">
