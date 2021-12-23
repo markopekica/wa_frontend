@@ -6,20 +6,25 @@
 
 <script>
 import Chart from "chart.js";
-import store from "@/store.js";
+/* import store from "@/store.js"; */
 
 export default {
   name: "Bar",
   data() {
     return {
-      store,
+      /* store, */
       labels: Array,
       da: [],
+      map: new Map(),
     };
   },
-  mounted() {
-    this.getLabels();
-    this.getValues();
+  async mounted() {
+    await this.getLabels();
+    await this.getValues();
+
+    /* console.log("/nMOUNTED");
+    console.log("da: ", this.da);
+    console.log("labels: ", this.labels); */
 
     /* let labels = [];
     for (let i = 0; i < store.activity.length; i++) {
@@ -60,48 +65,112 @@ export default {
       options: {
         responsive: true,
         scales: {
-          y: {
-            beginAtZero: true,
-            padding: 25,
-          },
+          yAxes: [
+            {
+              padding: 25,
+              ticks: {
+                /* https://stackoverflow.com/questions/37922518/how-to-set-start-value-as-0-in-chartjs */
+                beginAtZero: true,
+              },
+            },
+          ],
         },
       },
     });
   },
   methods: {
-    getLabels() {
-
+    async getLabels() {
       let l = [];
-      this.store.activity.forEach(function (element) {
 
+      let r = await fetch("http://localhost:3000/activities");
+      let odg = await r.json();
+
+      odg.forEach((element) => {
         l.push(element.name);
-
+        this.map.set(element.name);
       });
+
       this.labels = l;
 
-    },
-    getValues() {
+      /* console.log("ODG: ", odg)
+      console.log("l: ", l)
+      console.log("map: ", this.map)
+      console.log("this.labels: ", this.labels) */
 
+      /* fetch("http://localhost:3000/activities")
+        .then((r) => {
+          return r.json();
+        })
+        .then((r) => {
+          r.forEach((element) => {
+            l.push(element.name);
+            this.map.set(element.name);
+          });
+
+          let f = JSON.parse(JSON.stringify(l));
+          this.labels = l;
+        }); */
+    },
+    async getValues() {
       let data = [];
       let i = 0;
 
-      this.store.activity.forEach((el) => {
+      let r = await fetch("http://localhost:3000/sessions");
+      let odg = await r.json();
 
-        i = 0;
-        if (el.session) {
+      /* console.log("getValues() > odg: ", odg); */
 
-          el.session.forEach((e) => {
-            i += e.minutes;
-          });
+      odg.forEach((element) => {
+        for (let key of this.map.keys()) {
+          i = 0;
+          if (key == element.name && element.isRest == false) {
+            this.map.get(key) === undefined ? (i = 0) : (i = this.map.get(key));
 
-          data.push(i);
+            i += element.minutes;
 
+            this.map.set(key, i);
+          }
         }
-
       });
+
+      for (const value of this.map.values()) {
+        data.push(value);
+      }
 
       this.da = data;
 
+      /* console.log("this.da: ", this.da);
+      console.log("this.map: ", this.map); */
+
+      /* fetch("http://localhost:3000/sessions")
+        .then((r) => {
+          return r.json();
+        })
+        .then((r) => {
+          i = 0;
+          r.forEach((element) => {
+            for (let key of this.map.keys()) {
+              i = 0;
+              if (key == element.name && element.isRest == false) {
+                this.map.get(key) === undefined
+                  ? (i = 0)
+                  : (i = this.map.get(key));
+
+                i += element.minutes;
+
+                this.map.set(key, i);
+              }
+            }
+          });
+
+          for (const value of this.map.values()) {
+            data.push(value);
+          }
+
+          console.log("data: ", data)
+          this.da = data
+          
+        }); */
     },
   },
 };

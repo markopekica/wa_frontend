@@ -54,7 +54,7 @@
 <script>
 // @ is an alias to /src
 import ActivityCard from "@/components/ActivityCard.vue";
-import store from "@/store.js";
+/* import store from "@/store.js"; */
 
 export default {
   name: "Activity",
@@ -64,7 +64,8 @@ export default {
   data() {
     return {
       displayNewActivityForm: false,
-      store,
+      /* store, */
+      cards: []
     };
   },
   methods: {
@@ -80,10 +81,25 @@ export default {
     },
   },
   computed: {
-    cards() {
-      return this.store.activity;
+    async getCards() {
+      /* return this.store.activity; */
+      let r = await fetch("http://localhost:3000/activities")
+      let r2 = await r.json()
+      r2.forEach( el => {
+        this.cards.push(el)
+      })
+      /* .then(r => {
+        return r.json()
+      }).then(r => {
+        r.forEach( (element) => {
+          this.cards.push(element)
+        })
+      }) */
     },
   },
+  async mounted() {
+    await this.getCards
+  }
 };
 </script>
 

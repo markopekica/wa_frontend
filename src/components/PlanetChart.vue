@@ -6,27 +6,26 @@
 
 <script>
 import Chart from "chart.js";
-import planetChartData from "../planet-data.js";
-import store from "@/store.js";
+/* import planetChartData from "../planet-data.js"; */
 
 export default {
   name: "PlanetChart",
   data() {
     return {
-      store,
-      planetChartData: planetChartData,
+      /* store, */
+      /* planetChartData: planetChartData, */
       dataSets: [],
       dataSet: {
         label: "",
         data: [],
-        backgroundColor: "rgba(54,73,93,.5)",
-        borderColor: "rgba(54,73,93,.5)",
+        backgroundColor: String,
+        borderColor: String,
         borderWidth: 1,
       },
     };
   },
-  mounted() {
-    this.makeDatasets();
+  async mounted() {
+    await this.makeDatasets();
     const ctx = document.getElementById("planet-chart");
     new Chart(ctx, {
       type: "line",
@@ -84,34 +83,36 @@ export default {
     });
   },
   methods: {
-    makeDatasets() {
-      
-      
+    async makeDatasets( ) {
+      let act = await fetch("http://localhost:3000/activities")
+      let act2 = await act.json()
 
-      this.store.activity.forEach((el) => {
+      let s = await fetch("http://localhost:3000/sessions")
+      let s2 = await s.json()
+      act2.forEach( el => {
+        console.log(el.name)
+        this.dataSet = []
+        this.dataSet.data = []
 
-      this.dataSet = []
-      this.dataSet.data = []
+        this.dataSet.label = el.name
+        this.dataSet.backgroundColor = el.color
+        this.dataSet.borderColor = el.color
 
-        console.log(el.name);
-        this.dataSet.label = el.name;
-        this.dataSet.backgroundColor = el.color;
-        this.dataSet.borderColor = el.color;
-        /* console.log(this.dataSets.push(el)) */
+        s2.forEach( el2 => {
+          if(el.name == el2.name){
+            console.log("sesh: ", el2.name)
+            this.dataSet.data.push(el2.minutes)
+          }
+        })
 
-        el.session.forEach((e) => {
-          console.log(e.minutes)
-          this.dataSet.data.push(e.minutes);
-        });
+      this.dataSets.push(this.dataSet)
 
-        this.dataSets.push(this.dataSet);
-        console.log(this.dataSet)
-        console.log(this.dataSets)
-        
-      });
-      /* console.log(this.dataSets) */
-    },
-    async getData() {},
+      })
+
+      console.log("this.dataSets[1]: ", this.dataSets[1])
+
+      console.log(this.dataSet)
+    }
   },
 };
 </script>

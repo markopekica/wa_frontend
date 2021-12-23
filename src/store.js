@@ -1,4 +1,4 @@
-export default {
+/* export default {
   currentUser: null,
   activity: [
     {
@@ -63,3 +63,4 @@ export default {
     },
   ],
 };
+ */

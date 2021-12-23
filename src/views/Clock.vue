@@ -65,13 +65,13 @@
 
 <script>
 // @ is an alias to /src
-import store from "@/store.js";
+/* import store from "@/store.js"; */
 
 export default {
   name: "Clock",
   data() {
     return {
-      store,
+      /* store, */
       timeInputVisible: false,
       isRest: false,
       restTime: 0.2,
@@ -80,13 +80,29 @@ export default {
       isPause: false,
       pausedTime: String,
       i: Number, //  interval id
-      options: store.activity,
+      options: []
     };
   },
-  mounted() {
+  async mounted() {
     this.displayDigits();
+    await this.getOptions()
   },
   methods: {
+    async getOptions() {
+      let r = await fetch("http://localhost:3000/activities")
+      let r2 = await r.json()
+      r2.forEach( el => {
+        this.options.push(el)
+      })
+      /* .then(r => {
+        return r.json()
+      }).then(r => {
+        console.log("podaci s backenda", r)
+        r.forEach( (element) => {
+          this.options.push(element)
+        })
+      }) */
+    },
     displayDigits() {
       this.isRest
         ? (document.getElementById("rest-time-digits").textContent =
@@ -101,13 +117,14 @@ export default {
       this.timeInputVisible = false;
     },
     saveTimeInput() {
-      let wtf = console.log(document.getElementsByTagName("input")[0].value);
+      let wtf = document.getElementsByTagName("input")[0].value;
       if (wtf === undefined) {
         this.closeTimeInput();
       } else {
         this.isRest
           ? (this.restTime = document.getElementsByTagName("input")[0].value)
           : (this.focusTime = document.getElementsByTagName("input")[0].value);
+          console.log("fasfas: ", document.getElementsByTagName("input")[0].value)
         this.closeTimeInput();
         this.displayDigits();
       }
