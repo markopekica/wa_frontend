@@ -1,31 +1,42 @@
-import axios from 'axios'
+import axios from "axios";
 
-let test = 'oj'
+let test = "oj";
 
 let Service = axios.create({
-    baseURL: 'http://localhost:3000',
-    timeout: 1000
-})    // variabla za komunikaciju s backend-om
-
-
-let ActivityCards = {
-    getAll() {
-        return Service.get('/activities')
-    }
-}
-
+  baseURL: "http://localhost:3000",
+  timeout: 1000,
+}); // variabla za komunikaciju s backend-om
 
 let Activities = {
-    getAll() {
-        return Service.get('/activities')
-    }
-}
+  async create(data) {
+    let serverData = {
+      name: data.name,
+      addedAt: data.addedAt,
+      color: data.color,
+    };
+    await Service.post("/activities", serverData);
+    return
+  },
+  getAll() {
+    return Service.get("/activities");
+  },
+};
 
 let Sessions = {
-    getAll() {
-        return Service.get('/sessions')
-    }
-}
+    async create( data ) {
+          let serverData = {
+              name: data.name,
+              date: data.date,
+              startTime: data.startedAt,
+              minutes: data.minutes,
+              isRest: data.isRest
+          }
+          await Service.post('/sessions', serverData)
+          return
+    },
+  getAll() {
+    return Service.get("/sessions");
+  },
+};
 
-
-export { test, Service, ActivityCards, Activities, Sessions }
+export { test, Service, Activities, Sessions };

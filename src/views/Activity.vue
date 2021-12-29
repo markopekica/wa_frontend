@@ -13,7 +13,7 @@
       <div class="mb-3">
         <!-- <label for="newActivity" class="form-label">New activity name</label> -->
         <input
-          id="newActivity"
+          id="activityName"
           type="text"
           class="new-activity-input"
           placeholder="New activity name"
@@ -21,7 +21,7 @@
       </div>
       <div class="mb-3">
         <label for="newActivity" class="form-label">Pick a color</label>
-        <input type="color" />
+        <input id="activityColor" type="color" />
       </div>
       <button
         type="button"
@@ -43,7 +43,7 @@
       <div class="activities">
         <ActivityCard
           v-for="activity in cards"
-          :key="activity.id"
+          :key="activity.name"
           :info="activity"
         />
       </div>
@@ -53,7 +53,7 @@
 
 <script>
 import ActivityCard from "@/components/ActivityCard.vue";
-import {ActivityCards} from '@/services/index.js'
+import { Activities } from '@/services/index.js'
 /* import {test} from '@/services' */
 
 export default {
@@ -70,7 +70,16 @@ export default {
   methods: {
     saveActivity: function () {
       // save activity to database
-      alert("ok");
+      let activity = {
+        name: document.getElementById('activityName').value,
+        addedAt: Date.now(),
+        color: document.getElementById('activityColor').value
+      }
+      Activities.create( activity )
+      .then( ( ) => {
+        //kad se ucita loadaj opet ili nesto
+        window.location.reload()
+      })
     },
     hideNewActivityForm() {
       return (this.displayNewActivityForm = false);
@@ -82,8 +91,7 @@ export default {
   computed: {
     async getCards() {
 
-      let cards = await ActivityCards.getAll()
-      
+      let cards = await Activities.getAll()
       
       cards.data.forEach( card => {
         this.cards.push(card)

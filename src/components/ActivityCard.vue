@@ -56,7 +56,8 @@ export default {
   float: left;
 }
 .activity-card:hover {
-  padding: 1.25em;
+  /* padding: 1.25em; */
+  box-shadow: 1px 1px 3px 3px lightgray;
   cursor: pointer;
 }
 .full-info {
