@@ -65,13 +65,12 @@
 
 <script>
 // @ is an alias to /src
-/* import store from "@/store.js"; */
+import { Activities } from '@/services'
 
 export default {
   name: "Clock",
   data() {
     return {
-      /* store, */
       timeInputVisible: false,
       isRest: false,
       restTime: 0.2,
@@ -89,11 +88,18 @@ export default {
   },
   methods: {
     async getOptions() {
-      let r = await fetch("http://localhost:3000/activities")
+
+      /* let r = await fetch("http://localhost:3000/activities")
       let r2 = await r.json()
       r2.forEach( el => {
         this.options.push(el)
       })
+      console.log(this.options) */
+
+      let o = await Activities.getAll()
+
+      o.data.forEach( el => this.options.push(el) )
+
       /* .then(r => {
         return r.json()
       }).then(r => {
@@ -117,34 +123,39 @@ export default {
       this.timeInputVisible = false;
     },
     saveTimeInput() {
+
       let wtf = document.getElementsByTagName("input")[0].value;
+
       if (wtf === undefined) {
         this.closeTimeInput();
       } else {
         this.isRest
           ? (this.restTime = document.getElementsByTagName("input")[0].value)
           : (this.focusTime = document.getElementsByTagName("input")[0].value);
-          console.log("fasfas: ", document.getElementsByTagName("input")[0].value)
+          
         this.closeTimeInput();
         this.displayDigits();
       }
     },
     pause() {
-      /* console.log("pause"); */
+      
       this.isPause = true;
       this.isPlay = false;
+
       this.isRest
         ? (this.pausedTime =
             document.getElementById("rest-time-digits").textContent)
         : (this.pausedTime =
             document.getElementById("focus-time-digits").textContent);
-      /* this.displayDigits(); */
+            
       clearInterval(this.i);
+
       this.isRest
         ? (document.getElementById("rest-time-digits").textContent =
             this.pausedTime)
         : (document.getElementById("focus-time-digits").textContent =
             this.pausedTime);
+
     },
     startCounting(duration) {
       /* https://stackoverflow.com/questions/20618355/how-to-write-a-countdown-timer-in-javascript */
@@ -166,27 +177,22 @@ export default {
               minutes + ":" + seconds)
           : (document.getElementById("focus-time-digits").textContent =
               minutes + ":" + seconds);
-
-        /* console.log(timer); */
         
         if (--timer < 0) {
-          /* console.log("bs grip"); */
-          // saveSession
           changeRest();
           stop();
         }
       }
 
       this.i = setInterval(interval, 1000);
-      /* console.log("1: " + this.i); */
+      
     },
     saveSession() {
       let veryGoodName = document.getElementById('activity').value
-      console.log("for activity: ", veryGoodName)
+      /* console.log("for activity: ", veryGoodName) */
     },
     startTime() {
       var seconds;
-
       this.saveSession()
 
       this.isRest
@@ -208,11 +214,9 @@ export default {
       this.isRest ? (this.isRest = false) : (this.isRest = true);
     },
     stop() {
-      /* console.log("stop"); */
       clearInterval(this.i);
       this.isPause = false;
       this.isPlay = false;
-      /* console.log("rest: ", this.isRest); */
       setTimeout(() => {
         this.displayDigits();
       }, 100);

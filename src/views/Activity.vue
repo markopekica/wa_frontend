@@ -52,9 +52,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import ActivityCard from "@/components/ActivityCard.vue";
-/* import store from "@/store.js"; */
+import {ActivityCards} from '@/services/index.js'
+/* import {test} from '@/services' */
 
 export default {
   name: "Activity",
@@ -64,8 +64,7 @@ export default {
   data() {
     return {
       displayNewActivityForm: false,
-      /* store, */
-      cards: []
+      cards: [],
     };
   },
   methods: {
@@ -82,19 +81,21 @@ export default {
   },
   computed: {
     async getCards() {
-      /* return this.store.activity; */
-      let r = await fetch("http://localhost:3000/activities")
+
+      let cards = await ActivityCards.getAll()
+      
+      
+      cards.data.forEach( card => {
+        this.cards.push(card)
+      })
+
+      /* let r = await fetch("http://localhost:3000/activities")
       let r2 = await r.json()
       r2.forEach( el => {
         this.cards.push(el)
-      })
-      /* .then(r => {
-        return r.json()
-      }).then(r => {
-        r.forEach( (element) => {
-          this.cards.push(element)
-        })
       }) */
+
+
     },
   },
   async mounted() {

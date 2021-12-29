@@ -4,24 +4,24 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <h1>stats!</h1>
 
-    <BarChart/>
-    <br><br>
+    <BarChart />
+    <br /><br />
 
-    <PlanetChart/>
+    <PlanetChart />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 /* import HelloWorld from '@/components/HelloWorld.vue' */
-import PlanetChart from '@/components/PlanetChart.vue'
-import BarChart from '@/components/BarChart.vue'
+import PlanetChart from "@/components/PlanetChart.vue";
+import BarChart from "@/components/BarChart.vue";
 
 export default {
   name: "Stats",
-components: {
+  components: {
     PlanetChart,
-BarChart
-  }
+    BarChart,
+  },
 };
 </script>

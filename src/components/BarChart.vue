@@ -6,13 +6,12 @@
 
 <script>
 import Chart from "chart.js";
-/* import store from "@/store.js"; */
+import { Activities, Sessions } from "@/services";
 
 export default {
   name: "Bar",
   data() {
     return {
-      /* store, */
       labels: Array,
       da: [],
       map: new Map(),
@@ -21,16 +20,6 @@ export default {
   async mounted() {
     await this.getLabels();
     await this.getValues();
-
-    /* console.log("/nMOUNTED");
-    console.log("da: ", this.da);
-    console.log("labels: ", this.labels); */
-
-    /* let labels = [];
-    for (let i = 0; i < store.activity.length; i++) {
-      console.log(store.activity[i].name);
-      labels.push(store.activity[i].name);
-    } */
 
     const ctx = document.getElementById("myChart").getContext("2d");
     const myChart = new Chart(ctx, {
@@ -81,53 +70,25 @@ export default {
   methods: {
     async getLabels() {
       let l = [];
+      let r = await Activities.getAll();
 
-      let r = await fetch("http://localhost:3000/activities");
-      let odg = await r.json();
-
-      odg.forEach((element) => {
+      r.data.forEach((element) => {
         l.push(element.name);
         this.map.set(element.name);
       });
-
       this.labels = l;
-
-      /* console.log("ODG: ", odg)
-      console.log("l: ", l)
-      console.log("map: ", this.map)
-      console.log("this.labels: ", this.labels) */
-
-      /* fetch("http://localhost:3000/activities")
-        .then((r) => {
-          return r.json();
-        })
-        .then((r) => {
-          r.forEach((element) => {
-            l.push(element.name);
-            this.map.set(element.name);
-          });
-
-          let f = JSON.parse(JSON.stringify(l));
-          this.labels = l;
-        }); */
     },
     async getValues() {
       let data = [];
       let i = 0;
+      let r = await Sessions.getAll();
 
-      let r = await fetch("http://localhost:3000/sessions");
-      let odg = await r.json();
-
-      /* console.log("getValues() > odg: ", odg); */
-
-      odg.forEach((element) => {
+      r.data.forEach((element) => {
         for (let key of this.map.keys()) {
           i = 0;
           if (key == element.name && element.isRest == false) {
             this.map.get(key) === undefined ? (i = 0) : (i = this.map.get(key));
-
             i += element.minutes;
-
             this.map.set(key, i);
           }
         }

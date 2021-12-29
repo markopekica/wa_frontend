@@ -6,7 +6,7 @@
 
 <script>
 import Chart from "chart.js";
-/* import planetChartData from "../planet-data.js"; */
+import { Activities, Sessions } from "@/services";
 
 export default {
   name: "PlanetChart",
@@ -83,36 +83,27 @@ export default {
     });
   },
   methods: {
-    async makeDatasets( ) {
-      let act = await fetch("http://localhost:3000/activities")
-      let act2 = await act.json()
+    async makeDatasets() {
+      let activities = await Activities.getAll();
+      let sessions = await Sessions.getAll();
 
-      let s = await fetch("http://localhost:3000/sessions")
-      let s2 = await s.json()
-      act2.forEach( el => {
-        console.log(el.name)
-        this.dataSet = []
-        this.dataSet.data = []
+      activities.data.forEach((el) => {
+        this.dataSet = [];
+        this.dataSet.data = [];
 
-        this.dataSet.label = el.name
-        this.dataSet.backgroundColor = el.color
-        this.dataSet.borderColor = el.color
+        this.dataSet.label = el.name;
+        this.dataSet.backgroundColor = el.color;
+        this.dataSet.borderColor = el.color;
 
-        s2.forEach( el2 => {
-          if(el.name == el2.name){
-            console.log("sesh: ", el2.name)
-            this.dataSet.data.push(el2.minutes)
+        sessions.data.forEach((el2) => {
+          if (el.name == el2.name) {
+            this.dataSet.data.push(el2.minutes);
           }
-        })
+        });
 
-      this.dataSets.push(this.dataSet)
-
-      })
-
-      console.log("this.dataSets[1]: ", this.dataSets[1])
-
-      console.log(this.dataSet)
-    }
+        this.dataSets.push(this.dataSet);
+      });
+    },
   },
 };
 </script>
