@@ -2,7 +2,7 @@
   <div class="activity-card" @click="showHideCardInfo" :style="thisStyle">
     <h3>{{ info.name }}</h3>
     <div class="full-info" v-if="showFullInfo">
-      <p>Id: {{ info.id }}</p>
+      <!-- <p>Id: {{ info._id }}</p> -->
       <p>Added at: {{ info.addedAt }}</p>
       <button
         type="button"
