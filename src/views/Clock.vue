@@ -106,9 +106,9 @@ export default {
       this.timeInputVisible = false;
     },
     saveTimeInput() {
-      let wtf = document.getElementsByTagName("input")[0].value;
+      let timeInputValue = document.getElementsByTagName("input")[0].value;
 
-      if (wtf === undefined) {
+      if (timeInputValue === undefined || timeInputValue == '') {
         this.closeTimeInput();
       } else {
         this.isRest
@@ -175,11 +175,12 @@ export default {
 
       let session = {
         name: veryGoodName,
-        date: Date.now(),
+        /* date: Date.now(), */
         startTime: this.startedAt,
-        minutes: min,
+        minutes: Number(min),
         isRest: this.isRest,
       };
+
 
       Sessions.create( session )
       .then( () => {
@@ -248,12 +249,12 @@ export default {
 .focus-label {
   color: green;
 }
-.focus-label:hover {
+/* .focus-label:hover {
   cursor: pointer;
 }
 .rest-label:hover {
   cursor: pointer;
-}
+} */
 .rest-label {
   color: orange;
 }

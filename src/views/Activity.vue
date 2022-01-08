@@ -72,7 +72,7 @@ export default {
       // save activity to database
       let activity = {
         name: document.getElementById('activityName').value,
-        addedAt: Date.now(),
+        /* addedAt: Date.now(), */
         color: document.getElementById('activityColor').value
       }
       Activities.create( activity )

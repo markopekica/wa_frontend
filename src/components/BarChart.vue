@@ -15,6 +15,14 @@ export default {
       labels: Array,
       da: [],
       map: new Map(),
+      ds: [
+        {
+          label: "Total focus time for each activity",
+          data: this.da,
+          backgroundColor: [],
+          borderColor: [],
+        }
+      ]
     };
   },
   async mounted() {

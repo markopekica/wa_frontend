@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import store from "@/store.js";
+/* import store from "@/store.js"; */
 
 export default {
   name: "ActivityCard",
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       showFullInfo: false,
-      store,
+      /* store, */
       thisStyle: {
         /* https://stackoverflow.com/questions/53229804/how-to-change-style-of-background-color-using-vue-js-only */
         color: this.info.color,
