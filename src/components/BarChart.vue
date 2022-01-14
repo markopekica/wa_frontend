@@ -37,7 +37,7 @@ export default {
         labels: this.labels,
         datasets: [
           {
-            label: "Total time forEach activity",
+            label: "Total time",
             data: this.da,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",

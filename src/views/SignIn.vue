@@ -1,7 +1,10 @@
 <template>
   <div class="signIn">
     <h1>Sign in</h1>
-    <form @submit.prevent="login">
+    <div class="error-div" v-if="eMsg">
+      {{ eMsg }}
+    </div>
+    <form @submit.prevent="signIn()">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input
@@ -44,17 +47,21 @@ export default {
     return {
       email: "",
       password: "",
+      eMsg: ""
     };
   },
   methods: {
-    async login() {
-      let success = await Auth.login(this.email, this.password);
+    async signIn() {
+      let success = await Auth.signIn(this.email, this.password);
       console.log("rezultat prijave", success)
+
+
 
       if( success == true ){
         await this.$router.push({ name: 'Stats' })
         window.location.reload()
       }
+      
     },
   },
 };

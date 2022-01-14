@@ -1,8 +1,14 @@
 <template>
   <div class="nav">
-    <div class="logo">
+    <!-- <div class="logo">
       <i class="bi bi-triangle"></i>
-    </div>
+      <span style="font-size:small;">logo</span>
+        <i class="bi bi-info-circle"></i>
+    </div> -->
+    <router-link class="rlink logo" to="about" title="info">
+              <div style="font-size:11px;">logo</div>
+
+      </router-link>
     <div class="menu">
       <router-link class="rlink" to="/activity" title="activity list">
         <i class="bi bi-list-task"></i
@@ -23,9 +29,9 @@
       <router-link class="rlink" to="" title="sign out" v-if="authenticated">
         <i class="bi bi-box-arrow-left" @click="logout()"></i>
       </router-link>
-      <router-link class="rlink" to="about" title="info">
+      <!-- <router-link class="rlink" to="about" title="info">
         <i class="bi bi-info-circle"></i>
-      </router-link>
+      </router-link> -->
     </div>
   </div>
 </template>
@@ -62,6 +68,12 @@ export default {
   margin: 0.5em;
   max-width: 32px;
 }
+.logo {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: center;
+  margin: .25em;
+}
 .rlink:hover {
   border: 1px solid lightgray;
   border-radius: 6px;
@@ -83,11 +95,11 @@ export default {
   .logo {
     padding: 0 0.5em;
     width: 64px;
-    box-shadow: 1px 0px 0px lightgray;
+    /* box-shadow: 1px 0px 0px lightgray; */
     margin-right: 0.5em;
   }
   .other-icons {
-    box-shadow: -1px 0px 0px lightgray;
+    /* box-shadow: -1px 0px 0px lightgray; */
     margin-left: auto;
     margin-right: 0;
   }

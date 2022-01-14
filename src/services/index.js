@@ -53,7 +53,23 @@ let Sessions = {
 };
 
 let Auth = {
-  async login(username, password) {
+  async signUp(username, password, repeatPassword) {
+    let response = await Service.post("/users", {
+      username: username,
+      password: password,
+      repeatPassword: repeatPassword
+    })
+
+    console.log("index.js", response)
+
+    let user = response.data;
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    return true;
+
+  },
+  async signIn(username, password) {
     let response = await Service.post("/auth", {
       username: username,
       password: password,
