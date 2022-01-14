@@ -17,11 +17,11 @@
     </div>
     <!-- other icons; sign out, info -->
     <div class="other-icons">
-      <router-link class="rlink" to="/signIn" title="sign in"
+      <router-link class="rlink" to="/signIn" title="sign in" v-if="!authenticated"
         ><i class="bi bi-box-arrow-in-right"></i
       ></router-link>
-      <router-link class="rlink" to="#" title="sign out">
-        <i class="bi bi-box-arrow-left"></i>
+      <router-link class="rlink" to="" title="sign out" v-if="authenticated">
+        <i class="bi bi-box-arrow-left" @click="logout()"></i>
       </router-link>
       <router-link class="rlink" to="about" title="info">
         <i class="bi bi-info-circle"></i>
@@ -31,8 +31,22 @@
 </template>
 
 <script>
+import { Auth } from "@/services";
+
 export default {
   name: "NavigationBar",
+  props: ["authenticated"],
+  /* data() {
+    return {
+      userExists: localStorage.getItem("user")
+    }
+  }, */
+  methods: {
+    logout() {
+      Auth.logout();
+      this.$router.go();
+    },
+  },
 };
 </script>
 
@@ -51,6 +65,9 @@ export default {
 .rlink:hover {
   border: 1px solid lightgray;
   border-radius: 6px;
+}
+.bi-box-arrow-left{
+  color: #2c3e50;
 }
 @media only screen and (orientation: portrait) {
   .nav {

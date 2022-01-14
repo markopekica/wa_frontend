@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Stats from '../views/Stats.vue'
+import { Auth } from '@/services'
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,20 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach( (to, from, next) => {
+  const publicSites = ['/signIn', '/signUp', '/about']
+  const loginRequired = !publicSites.includes(to.path)
+  const user = Auth.getUser()
+
+  if( loginRequired && !user ){
+    next('/signIn')
+    return
+  }
+  
+  next( )
+
 })
 
 export default router

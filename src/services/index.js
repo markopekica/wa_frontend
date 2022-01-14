@@ -1,11 +1,24 @@
 import axios from "axios";
 
-let test = "oj";
-
 let Service = axios.create({
   baseURL: "http://localhost:3000",
   timeout: 1000,
 }); // variabla za komunikaciju s backend-om
+
+Service.interceptors.request.use((request) => {
+  try {
+    request.headers["Authorization"] = "Bearer " + Auth.getToken();
+  } catch (e) {
+    console.error(e);
+  }
+  return request;
+});
+
+Service.interceptors.response.use( (response, ) => response, (error) => {
+  if( error.response.status == 401 || error.response.status == 403 ){
+    Auth.logout( )
+  }
+})
 
 let Activities = {
   async create(data) {
@@ -15,7 +28,7 @@ let Activities = {
       color: data.color,
     };
     await Service.post("/activities", serverData);
-    return
+    return;
   },
   getAll() {
     return Service.get("/activities");
@@ -23,20 +36,67 @@ let Activities = {
 };
 
 let Sessions = {
-    async create( data ) {
-          let serverData = {
-              name: data.name,
-              date: data.date,
-              startTime: data.startedAt,
-              minutes: data.minutes,
-              isRest: data.isRest
-          }
-          await Service.post('/sessions', serverData)
-          return
-    },
+  async create(data) {
+    let serverData = {
+      name: data.name,
+      date: data.date,
+      startTime: data.startedAt,
+      minutes: data.minutes,
+      isRest: data.isRest,
+    };
+    await Service.post("/sessions", serverData);
+    return;
+  },
   getAll() {
     return Service.get("/sessions");
   },
 };
 
-export { test, Service, Activities, Sessions };
+let Auth = {
+  async login(username, password) {
+    let response = await Service.post("/auth", {
+      username: username,
+      password: password,
+    });
+
+    let user = response.data;
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    return true;
+  },
+  logout() {
+    localStorage.removeItem("user");
+  },
+  getUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  },
+  getToken() {
+    let user = Auth.getUser();
+    if (user && user.token) {
+      return user.token;
+    } else {
+      return false;
+    }
+  },
+  authenticated() {
+    let user = Auth.getUser();
+    if (user && user.token) {
+      return true;
+    }
+    return false;
+  },
+  state: {
+    get authenticated() {
+      return Auth.authenticated();
+    },
+    get userEmail( ){
+      let user = Auth.getUser( )
+      if( user ){
+        return user.username
+      }
+    }
+  },
+};
+
+export { Service, Activities, Sessions, Auth };
