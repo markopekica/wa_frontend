@@ -54,6 +54,7 @@
 <script>
 import ActivityCard from "@/components/ActivityCard.vue";
 import { Activities } from '@/services/index.js'
+import { Auth } from "@/services";
 /* import {test} from '@/services' */
 
 export default {
@@ -65,21 +66,23 @@ export default {
     return {
       displayNewActivityForm: false,
       cards: [],
+      ...Auth.state,
     };
   },
   methods: {
     saveActivity: function () {
-      // save activity to database
+
       let activity = {
         name: document.getElementById('activityName').value,
-        /* addedAt: Date.now(), */
-        color: document.getElementById('activityColor').value
+        color: document.getElementById('activityColor').value,
+        userName: Auth.getUser().username
       }
+
       Activities.create( activity )
       .then( ( ) => {
-        //kad se ucita loadaj opet ili nesto
         window.location.reload()
       })
+
     },
     hideNewActivityForm() {
       return (this.displayNewActivityForm = false);
@@ -91,18 +94,15 @@ export default {
   computed: {
     async getCards() {
 
-      let cards = await Activities.getAll()
+      let cards = await Activities.getAll(Auth.getUser().username)
+
+      console.log(cards)
       
-      cards.data.forEach( card => {
-        this.cards.push(card)
+      cards.forEach( card => {
+        if(card.userName == Auth.getUser( ).username){
+          this.cards.push(card)
+        }
       })
-
-      /* let r = await fetch("http://localhost:3000/activities")
-      let r2 = await r.json()
-      r2.forEach( el => {
-        this.cards.push(el)
-      }) */
-
 
     },
   },

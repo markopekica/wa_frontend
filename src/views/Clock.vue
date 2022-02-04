@@ -66,6 +66,7 @@
 <script>
 // @ is an alias to /src
 import { Activities, Sessions } from "@/services";
+import { Auth } from "@/services";
 
 export default {
   name: "Clock",
@@ -89,8 +90,9 @@ export default {
   },
   methods: {
     async getOptions() {
-      let o = await Activities.getAll();
-      o.data.forEach((el) => this.options.push(el));
+      let o = await Activities.getAll(Auth.getUser().username);
+      /* console.log("o: ", o) */
+      o.forEach((el) => this.options.push(el));
     },
     displayDigits() {
       this.isRest
@@ -168,24 +170,26 @@ export default {
       this.i = setInterval(interval, 1000);
     },
     saveSession() {
+      
       let veryGoodName = document.getElementById("activity").value;
+
+      let ses = this.options.find( e => e.name == veryGoodName)
 
       let min;
       this.isRest ? (min = this.restTime) : (min = this.focusTime);
 
       let session = {
         name: veryGoodName,
-        /* date: Date.now(), */
         startTime: this.startedAt,
         minutes: Number(min),
         isRest: this.isRest,
+        activityId: ses._id
       };
 
 
       Sessions.create( session )
       .then( () => {
         console.log('ok')
-        /* console.log('saved session: ', session) */
       })
     },
     startTime() {

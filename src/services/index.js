@@ -24,14 +24,23 @@ let Activities = {
   async create(data) {
     let serverData = {
       name: data.name,
-      addedAt: data.addedAt,
       color: data.color,
+      userName: data.userName
     };
+
     await Service.post("/activities", serverData);
     return;
   },
-  getAll() {
-    return Service.get("/activities");
+  async getAll(usa) {
+    let act = await Service.get("/activities")
+
+    let jakoLose = []
+    act.data.forEach( e => {
+      if(e.userName == usa){
+        jakoLose.push(e)
+      }
+    })
+    return jakoLose;
   },
 };
 
@@ -43,12 +52,23 @@ let Sessions = {
       startTime: data.startedAt,
       minutes: data.minutes,
       isRest: data.isRest,
+      activityId: data.activityId
     };
     await Service.post("/sessions", serverData);
     return;
   },
-  getAll() {
-    return Service.get("/sessions");
+  async getAll(activities) {
+    let ses = await Service.get("/sessions")
+    let ar = []
+    console.log("activities: ", activities)
+    ses.data.forEach( ses => {
+      activities.forEach( act => {
+        if( ses.activityId == act._id ){
+          ar.push(ses)
+        }
+      })
+    })
+    return ar
   },
 };
 

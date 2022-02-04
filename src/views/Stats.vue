@@ -5,9 +5,9 @@
     <h1>stats!</h1>
 
     <BarChart />
-    <br /><br />
+    <!-- <br /><br />
 
-    <PlanetChart />
+    <PlanetChart /> -->
   </div>
 </template>
 

@@ -7,6 +7,7 @@
 <script>
 import Chart from "chart.js";
 import { Activities, Sessions } from "@/services";
+import { Auth } from "@/services";
 
 export default {
   name: "Bar",
@@ -22,10 +23,12 @@ export default {
           backgroundColor: [],
           borderColor: [],
         }
-      ]
+      ],
+      options: [],
     };
   },
   async mounted() {
+    await this.getOptions();
     await this.getLabels();
     await this.getValues();
 
@@ -78,9 +81,9 @@ export default {
   methods: {
     async getLabels() {
       let l = [];
-      let r = await Activities.getAll();
+      let r = await Activities.getAll(Auth.getUser().username);
 
-      r.data.forEach((element) => {
+      r.forEach((element) => {
         l.push(element.name);
         this.map.set(element.name);
       });
@@ -89,9 +92,11 @@ export default {
     async getValues() {
       let data = [];
       let i = 0;
-      let r = await Sessions.getAll();
+      let r = await Sessions.getAll(this.options);
 
-      r.data.forEach((element) => {
+      console.log("r2: ", r)
+
+      r.forEach((element) => {
         for (let key of this.map.keys()) {
           i = 0;
           if (key == element.name && element.isRest == false) {
@@ -108,38 +113,11 @@ export default {
 
       this.da = data;
 
-      /* console.log("this.da: ", this.da);
-      console.log("this.map: ", this.map); */
-
-      /* fetch("http://localhost:3000/sessions")
-        .then((r) => {
-          return r.json();
-        })
-        .then((r) => {
-          i = 0;
-          r.forEach((element) => {
-            for (let key of this.map.keys()) {
-              i = 0;
-              if (key == element.name && element.isRest == false) {
-                this.map.get(key) === undefined
-                  ? (i = 0)
-                  : (i = this.map.get(key));
-
-                i += element.minutes;
-
-                this.map.set(key, i);
-              }
-            }
-          });
-
-          for (const value of this.map.values()) {
-            data.push(value);
-          }
-
-          console.log("data: ", data)
-          this.da = data
-          
-        }); */
+    },
+    async getOptions() {
+      let o = await Activities.getAll(Auth.getUser().username);
+      /* console.log("o: ", o) */
+      o.forEach((el) => this.options.push(el));
     },
   },
 };
