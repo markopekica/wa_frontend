@@ -1,6 +1,5 @@
 <template>
   <div class="activity">
-    <!-- <h1>What are You working on?</h1> -->
     <button
       type="button"
       class="btn btn-primary"
@@ -11,7 +10,6 @@
     </button>
     <form v-if="this.displayNewActivityForm">
       <div class="mb-3">
-        <!-- <label for="newActivity" class="form-label">New activity name</label> -->
         <input
           id="activityName"
           type="text"
@@ -53,9 +51,7 @@
 
 <script>
 import ActivityCard from "@/components/ActivityCard.vue";
-import { Activities } from '@/services/index.js'
-import { Auth } from "@/services";
-/* import {test} from '@/services' */
+import { Activities, Auth } from '@/services/index.js'
 
 export default {
   name: "Activity",
@@ -66,23 +62,19 @@ export default {
     return {
       displayNewActivityForm: false,
       cards: [],
-      ...Auth.state,
     };
   },
   methods: {
     saveActivity: function () {
-
       let activity = {
         name: document.getElementById('activityName').value,
         color: document.getElementById('activityColor').value,
         userName: Auth.getUser().username
       }
-
       Activities.create( activity )
       .then( ( ) => {
         window.location.reload()
       })
-
     },
     hideNewActivityForm() {
       return (this.displayNewActivityForm = false);
@@ -93,17 +85,12 @@ export default {
   },
   computed: {
     async getCards() {
-
       let cards = await Activities.getAll(Auth.getUser().username)
-
-      console.log(cards)
-      
       cards.forEach( card => {
-        if(card.userName == Auth.getUser( ).username){
+        if(card.userName == Auth.state.userEmail){
           this.cards.push(card)
         }
       })
-
     },
   },
   async mounted() {
@@ -133,14 +120,12 @@ form {
   border-bottom: 1px solid lightgray;
 }
 .mb-3 {
-  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .activity-list {
-  /* border: 1px solid red; */
   padding: 1em;
   margin: 1em auto;
 }

@@ -64,9 +64,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import { Activities, Sessions } from "@/services";
-import { Auth } from "@/services";
+import { Activities, Sessions, Auth } from "@/services";
 
 export default {
   name: "Clock",
@@ -74,8 +72,8 @@ export default {
     return {
       timeInputVisible: false,
       isRest: false,
-      restTime: 0.2,
-      focusTime: 0.1,
+      restTime: 5,
+      focusTime: 20,
       isPlay: false,
       isPause: false,
       pausedTime: String,
@@ -91,7 +89,6 @@ export default {
   methods: {
     async getOptions() {
       let o = await Activities.getAll(Auth.getUser().username);
-      /* console.log("o: ", o) */
       o.forEach((el) => this.options.push(el));
     },
     displayDigits() {
@@ -172,10 +169,9 @@ export default {
     saveSession() {
       
       let veryGoodName = document.getElementById("activity").value;
-
       let ses = this.options.find( e => e.name == veryGoodName)
-
       let min;
+
       this.isRest ? (min = this.restTime) : (min = this.focusTime);
 
       let session = {
@@ -185,7 +181,6 @@ export default {
         isRest: this.isRest,
         activityId: ses._id
       };
-
 
       Sessions.create( session )
       .then( () => {
@@ -246,25 +241,17 @@ export default {
   }
 }
 .time-label {
-  /* border: 1px solid red; */
   display: flex;
   justify-content: space-evenly;
 }
 .focus-label {
   color: green;
 }
-/* .focus-label:hover {
-  cursor: pointer;
-}
-.rest-label:hover {
-  cursor: pointer;
-} */
 .rest-label {
   color: orange;
 }
 .focus-minutes,
 .rest-minutes {
-  /* border: 1px solid red; */
   margin: 1em auto;
   font-size: 180%;
 }
@@ -291,7 +278,6 @@ export default {
   line-height: 2.5em;
 }
 .bi {
-  /* border: 1px solid red; */
   margin: 1em;
   font-size: 120%;
 }

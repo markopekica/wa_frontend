@@ -20,9 +20,6 @@ export default {
       ...Auth.state,
     }
   },
-  mounted( ){
-
-  }
 }
 
 </script>

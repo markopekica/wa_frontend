@@ -6,8 +6,7 @@
 
 <script>
 import Chart from "chart.js";
-import { Activities, Sessions } from "@/services";
-import { Auth } from "@/services";
+import { Activities, Sessions, Auth } from "@/services";
 
 export default {
   name: "Bar",
@@ -80,6 +79,7 @@ export default {
   },
   methods: {
     async getLabels() {
+
       let l = [];
       let r = await Activities.getAll(Auth.getUser().username);
 
@@ -87,14 +87,15 @@ export default {
         l.push(element.name);
         this.map.set(element.name);
       });
+
       this.labels = l;
+
     },
     async getValues() {
+
       let data = [];
       let i = 0;
       let r = await Sessions.getAll(this.options);
-
-      console.log("r2: ", r)
 
       r.forEach((element) => {
         for (let key of this.map.keys()) {
@@ -116,7 +117,6 @@ export default {
     },
     async getOptions() {
       let o = await Activities.getAll(Auth.getUser().username);
-      /* console.log("o: ", o) */
       o.forEach((el) => this.options.push(el));
     },
   },
@@ -130,8 +130,6 @@ canvas {
 }
 .bar-chart {
   max-width: 800px;
-  /* max-height: 100px; */
   margin: auto;
-  /* border: 1px solid red; */
 }
 </style>

@@ -43,7 +43,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { Auth } from "@/services";
 
 export default {
@@ -62,7 +61,6 @@ export default {
         this.password,
         this.repeatPassword
       );
-      console.log("rezultat registracije", success);
 
       if (success == true) {
         let ok = await Auth.signIn(this.email, this.password);

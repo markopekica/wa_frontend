@@ -38,7 +38,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { Auth } from "@/services";
 
 export default {
@@ -54,8 +53,6 @@ export default {
     async signIn() {
       let success = await Auth.signIn(this.email, this.password);
       console.log("rezultat prijave", success)
-
-
 
       if( success == true ){
         await this.$router.push({ name: 'Stats' })

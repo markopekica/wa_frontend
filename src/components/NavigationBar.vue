@@ -1,14 +1,8 @@
 <template>
   <div class="nav">
-    <!-- <div class="logo">
-      <i class="bi bi-triangle"></i>
-      <span style="font-size:small;">logo</span>
-        <i class="bi bi-info-circle"></i>
-    </div> -->
     <router-link class="rlink logo" to="about" title="info">
-              <div style="font-size:11px;">logo</div>
-
-      </router-link>
+      <div style="font-size: 11px">logo</div>
+    </router-link>
     <div class="menu">
       <router-link class="rlink" to="/activity" title="activity list">
         <i class="bi bi-list-task"></i
@@ -17,21 +11,20 @@
         ><i class="bi bi-stopwatch"></i
       ></router-link>
       <router-link class="rlink" to="/" title="stats">
-        <!-- <i class="bi bi-graph-up"></i> -->
         <i class="bi bi-bar-chart"></i>
       </router-link>
     </div>
-    <!-- other icons; sign out, info -->
     <div class="other-icons">
-      <router-link class="rlink" to="/signIn" title="sign in" v-if="!authenticated"
+      <router-link
+        class="rlink"
+        to="/signIn"
+        title="sign in"
+        v-if="!authenticated"
         ><i class="bi bi-box-arrow-in-right"></i
       ></router-link>
       <router-link class="rlink" to="" title="sign out" v-if="authenticated">
         <i class="bi bi-box-arrow-left" @click="logout()"></i>
       </router-link>
-      <!-- <router-link class="rlink" to="about" title="info">
-        <i class="bi bi-info-circle"></i>
-      </router-link> -->
     </div>
   </div>
 </template>
@@ -42,11 +35,6 @@ import { Auth } from "@/services";
 export default {
   name: "NavigationBar",
   props: ["authenticated"],
-  /* data() {
-    return {
-      userExists: localStorage.getItem("user")
-    }
-  }, */
   methods: {
     logout() {
       Auth.logout();
@@ -56,7 +44,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .router-link-exact-active {
   color: #42b983 !important;
@@ -69,16 +56,15 @@ export default {
   max-width: 32px;
 }
 .logo {
-  /* border: 1px solid red; */
   display: flex;
   justify-content: center;
-  margin: .25em;
+  margin: 0.25em;
 }
 .rlink:hover {
   border: 1px solid lightgray;
   border-radius: 6px;
 }
-.bi-box-arrow-left{
+.bi-box-arrow-left {
   color: #2c3e50;
 }
 @media only screen and (orientation: portrait) {
@@ -95,11 +81,9 @@ export default {
   .logo {
     padding: 0 0.5em;
     width: 64px;
-    /* box-shadow: 1px 0px 0px lightgray; */
     margin-right: 0.5em;
   }
   .other-icons {
-    /* box-shadow: -1px 0px 0px lightgray; */
     margin-left: auto;
     margin-right: 0;
   }
@@ -114,10 +98,7 @@ export default {
 @media only screen and (orientation: landscape) {
   .nav {
     border-right: 1px solid lightgray;
-    /* float: left; */
     min-height: 100vh;
-    /* width: fit-content; */
-    /* position: fixed; */
     padding: 0.5em;
     display: flex;
     flex-direction: column;
