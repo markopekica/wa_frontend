@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let Service = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://calm-harbor-09665.herokuapp.com",
   timeout: 1000,
 }); // variabla za komunikaciju s backend-om
 
