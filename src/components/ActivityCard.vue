@@ -1,6 +1,6 @@
 <template>
-  <div class="activity-card" @click="showHideCardInfo" :style="thisStyle">
-    <h3>{{ info.name }}</h3>
+  <div class="activity-card" @click="showHideCardInfo" >
+    <h3 :style="thisStyle">{{ info.name }}</h3>
     <div class="full-info" v-if="showFullInfo">
       <p>Added at: {{ formatDate(info.addedAt) }}</p>
       <button

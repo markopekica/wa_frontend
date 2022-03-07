@@ -1,17 +1,28 @@
 <template>
   <div class="nav">
     <router-link class="rlink logo" to="about" title="info">
-      <div style="font-size: 11px">logo</div>
+      <!-- <div style="font-size: 11px">logo</div> -->
+      <!-- <i class="bi bi-diamond"></i> -->
+      <i class="bi bi-box"></i>
     </router-link>
     <div class="menu">
-      <router-link class="rlink" to="/activity" title="activity list">
-        <i class="bi bi-list-task"></i
-      ></router-link>
-      <router-link class="rlink" to="/clock" title="clock"
+      <router-link class="rlink" to="/activity" title="activities/tasks">
+        <!-- <i class="bi bi-list-task"></i
+      > -->
+        <i class="bi bi-diagram-3"></i>
+      </router-link>
+
+      <router-link class="rlink" to="/clock" title="timer"
         ><i class="bi bi-stopwatch"></i
       ></router-link>
       <router-link class="rlink" to="/" title="stats">
         <i class="bi bi-bar-chart"></i>
+      </router-link>
+      <!-- <router-link class="rlink" to="#" title="gantt chart">
+        <i class="bi bi-calendar-range"></i>
+      </router-link> -->
+      <router-link class="rlink" to="#" title="">
+        <i class="bi bi-award"></i>
       </router-link>
     </div>
     <div class="other-icons">
@@ -22,6 +33,9 @@
         v-if="!authenticated"
         ><i class="bi bi-box-arrow-in-right"></i
       ></router-link>
+      <router-link class="rlink" to="#" title="a" v-if="authenticated">
+        <i class="bi bi-gear"></i>
+      </router-link>
       <router-link class="rlink" to="" title="sign out" v-if="authenticated">
         <i class="bi bi-box-arrow-left" @click="logout()"></i>
       </router-link>
@@ -58,6 +72,7 @@ export default {
 .logo {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 0.25em;
 }
 .rlink:hover {
@@ -102,13 +117,14 @@ export default {
     padding: 0.5em;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   .rlink {
     padding: 0.25em 0.5em;
   }
   .logo {
-    padding: 0.5em;
-    margin-bottom: 2em;
+    /* padding: 0.5em; */
+    margin-bottom: 1em;
   }
   .menu,
   .other-icons {

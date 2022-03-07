@@ -1,9 +1,9 @@
 <template>
   <div class="clock">
     <h1>It's time</h1>
-    <div class="select-activity">
-      <label for="activity">Choose activity: &nbsp;</label>
-      <select name="activity" id="activity">
+    <div class="select-tag">
+      <label for="tag"><small>Choose tag: &nbsp;</small></label>
+      <select name="tag" id="tag" v-model="defaultSelectValue">
         <!-- https://stackoverflow.com/questions/40438924/dynamically-change-select-input-options-in-vuejs-2 -->
         <option
           v-for="option in options"
@@ -14,6 +14,18 @@
         </option>
       </select>
     </div>
+    <!-- <div class="select-task" v-if="!hideTask">
+      <label for="task"><small>Choose task: &nbsp;</small></label>
+      <select name="task" id="task" v-model="defaultSelectValue">
+        <option
+          v-for="option in options"
+          v-bind:value="option.name"
+          v-bind:key="option.id"
+        >
+          {{ option.name }}
+        </option>
+      </select>
+    </div> -->
     <div
       class="time-div"
       v-bind:class="{ 'focus-time-div': !isRest, 'rest-time-div': isRest }"
@@ -55,11 +67,14 @@
         v-if="isRest"
       ></div>
       <div class="clock-buttons">
-        <i class="bi bi-pause-circle" v-on:click="pause"></i>
-        <i class="bi bi-play-circle" v-on:click="startTime"></i>
-        <i class="bi bi-stop-circle" v-on:click="stop"></i>
+        <!-- <i class="bi bi-pause-circle" v-on:click="pause"></i> -->
+        <i class="bi bi-play-circle" v-on:click="startTime" v-if="!isPlay"></i>
+        <i class="bi bi-stop-circle" v-on:click="stop" v-if="isPlay"></i>
       </div>
     </div>
+    
+    <audio id="audio" src="../audio/sound2.ogg"></audio>
+
   </div>
 </template>
 
@@ -80,17 +95,28 @@ export default {
       i: Number, //  interval id
       options: [],
       startedAt: Date,
+      defaultSelectValue: undefined,
+      /* hideTag: false,
+      hideTask: false */
     };
   },
   async mounted() {
     this.displayDigits();
     await this.getOptions();
+    /* this.hideOptions() */
   },
   methods: {
     async getOptions() {
       let o = await Activities.getAll(Auth.getUser().username);
       o.forEach((el) => this.options.push(el));
     },
+    /* hideOptions(){
+      if( document.getElementById("tag").value != undefined ){
+        this.hideTask = true
+      } else if( document.getElementById("task").value != undefined ){
+        this.hideTag = true
+      }
+    }, */
     displayDigits() {
       this.isRest
         ? (document.getElementById("rest-time-digits").textContent =
@@ -158,9 +184,12 @@ export default {
               minutes + ":" + seconds);
 
         if (--timer < 0) {
+          stop();
+          const audio = document.getElementById("audio")
+          audio.play()
           save();
           changeRest();
-          stop();
+
         }
       }
 
@@ -168,7 +197,7 @@ export default {
     },
     saveSession() {
       
-      let veryGoodName = document.getElementById("activity").value;
+      let veryGoodName = document.getElementById("tag").value;
       let ses = this.options.find( e => e.name == veryGoodName)
       let min;
 
@@ -222,22 +251,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.select-tag, .select-task {
+  margin: .25em;
+}
 .time-div {
   border-radius: 6px;
   margin: 2rem auto;
   width: fit-content;
-  padding: 1em 2em;
+  min-width: 240px;
+  padding: .75em;
 }
 .focus-time-div {
-  border: 1px solid rgba(0, 128, 0, 0.331);
+  border: 2px solid rgba(0, 128, 0, 0.331);
   .rest-label {
-    opacity: 0.4;
+    opacity: 0.3;
   }
 }
 .rest-time-div {
-  border: 1px solid rgba(255, 166, 0, 0.331);
+  border: 2px solid rgba(255, 166, 0, 0.331);
   .focus-label {
-    opacity: 0.4;
+    opacity: 0.3;
   }
 }
 .time-label {
@@ -253,12 +286,12 @@ export default {
 .focus-minutes,
 .rest-minutes {
   margin: 1em auto;
-  font-size: 180%;
+  font-size: 200%;
 }
-.focus-minutes:hover {
-  cursor: pointer;
-}
+.focus-minutes:hover,
 .rest-minutes:hover {
+  /* margin: 1em auto; */
+  opacity: 0.7;
   cursor: pointer;
 }
 .select-minutes-div {
@@ -274,6 +307,14 @@ export default {
     width: 142px;
   }
 }
+.btn {
+  border-radius: 6px;
+  border: 1px solid rgba(17, 17, 17, 0.427);
+  margin: .2em .75em;
+}
+.btn:hover {
+  box-shadow: 1px 1px 1px 0px #111;
+}
 .clock-buttons {
   line-height: 2.5em;
 }
@@ -284,9 +325,9 @@ export default {
 .bi:hover {
   cursor: pointer;
 }
-.bi-pause-circle {
+/* .bi-pause-circle {
   color: darkorange;
-}
+} */
 .bi-play-circle {
   color: green;
   font-size: 120%;
