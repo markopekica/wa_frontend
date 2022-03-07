@@ -1,7 +1,7 @@
 <template>
   <div class="activity">
     <div class="tag-div">
-      <!-- <h2>Tags</h2> -->
+      <h2>Tags</h2>
       <p>activities, skills, tools</p>
       <button
         type="button"
@@ -42,16 +42,19 @@
       <div class="activity-list">
         <div class="activities">
           <ActivityCard
-            v-for="activity in cards"
+            v-for="activity in tags"
             :key="activity.name"
             :info="activity"
           />
         </div>
       </div>
     </div>
-    <!-- <div class="task-div">
+
+<hr>
+
+    <div class="task-div">
       <h2>Tasks</h2>
-      <p><small>Can contain multiple tags</small></p>
+      <!-- <p><small>Can contain multiple tags</small></p> -->
       <button
         type="button"
         class="btn btn-light"
@@ -60,7 +63,7 @@
       >
         Add new
       </button>
-      <form v-if="this.displayNewTaskForm">
+      <form class="task-form" v-if="this.displayNewTaskForm">
         <div class="mb-3">
           <input
             id="taskName"
@@ -72,6 +75,23 @@
         <div class="mb-3">
           <span>Color: &nbsp;</span>
           <input id="taskColor" type="color" />
+        </div>
+        <div class="task-tags">
+          <p>tags:</p>
+          <ul>
+            <!-- https://stackoverflow.com/questions/43797010/dynamic-value-checkbox-vuejs-2 -->
+            <li v-for="tag in tags" v-bind:value="tag" v-bind:key="tag.name">
+              <input
+                type="checkbox"
+                v-model="chosenTags"
+                v-bind:value="tag"
+                v-bind:key="tag.name"
+              />
+              {{ tag.name }}
+            </li>
+          </ul>
+
+          <label for="">{{ tags.name }}</label>
         </div>
         <button
           type="button"
@@ -89,31 +109,32 @@
         </button>
       </form>
       <div class="task-list">
-        <div class="activities">
-          <TaskCard
-            v-for="task in tasks"
-            :key="task.name"
-            :info="task"
-          />
+        <div class="tasks">
+          <TaskCard v-for="task in tasks" :key="task.name" :info="task" />
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
 import ActivityCard from "@/components/ActivityCard.vue";
-import { Activities, Auth } from "@/services/index.js";
+import { Activities, Tasks, Auth } from "@/services/index.js";
+import TaskCard from "@/components/TaskCard.vue";
 
 export default {
   name: "Activity",
   components: {
     ActivityCard,
+    TaskCard,
   },
   data() {
     return {
       displayNewActivityForm: false,
-      cards: [],
+      tags: [],
+      tasks: [],
+      displayNewTaskForm: false,
+      chosenTags: []
     };
   },
   methods: {
@@ -123,10 +144,10 @@ export default {
         color: document.getElementById("activityColor").value,
         userName: Auth.getUser().username,
       };
-      if( activity.name != "" ){
+      if (activity.name != "") {
         Activities.create(activity).then(() => {
-        window.location.reload();
-      });
+          window.location.reload();
+        });
       }
     },
     hideNewActivityForm() {
@@ -135,19 +156,48 @@ export default {
     showNewActivityForm() {
       return (this.displayNewActivityForm = true);
     },
+    hideNewTaskForm() {
+      return (this.displayNewTaskForm = false);
+    },
+    showNewTaskForm() {
+      this.chosenTags = []
+      return (this.displayNewTaskForm = true);
+    },
+    saveTask() {
+      let task = {
+        name: document.getElementById("taskName").value,
+        color: document.getElementById("taskColor").value,
+        userName: Auth.getUser().username,
+        tags: this.chosenTags
+      };
+      if (task.name != "") {
+        Tasks.create(task).then(() => {
+          window.location.reload();
+        });
+      }
+    },
   },
   computed: {
-    async getCards() {
+    async getTags() {
       let cards = await Activities.getAll(Auth.getUser().username);
       cards.forEach((card) => {
         if (card.userName == Auth.state.userEmail) {
-          this.cards.push(card);
+          this.tags.push(card);
+        }
+      });
+    },
+    async getTasks() {
+      let t = await Tasks.getAll(Auth.getUser().username);
+      t.forEach((e) => {
+        if (e.userName == Auth.state.userEmail) {
+          this.tasks.push(e);
         }
       });
     },
   },
   async mounted() {
-    await this.getCards;
+    await this.getTags;
+    await this.getTasks;
   },
 };
 </script>
@@ -164,7 +214,7 @@ h2 {
 .btn {
   border-radius: 6px;
   border: 1px solid rgba(17, 17, 17, 0.427);
-  margin: .2em .75em;
+  margin: 0.2em 0.75em;
 }
 .btn:hover {
   box-shadow: 1px 1px 1px 0px #111;
@@ -207,6 +257,12 @@ form {
   /* border: 1px solid red; */
   padding: 1em 0;
   /* box-shadow: 1px 1px 1px pink; */
+}
+.task-tags {
+  text-align: left;
+  ul {
+  list-style-type: none;
+ }
 }
 .group-div {
   padding: 1em 0;

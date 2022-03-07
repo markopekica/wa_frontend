@@ -1,10 +1,12 @@
 import axios from "axios";
 
+
 let Service = axios.create({
   /* baseURL: "https://calm-harbor-09665.herokuapp.com", */
   baseURL: 'http://localhost:3000/',
   timeout: 1000,
 }); // variabla za komunikaciju s backend-om
+
 
 Service.interceptors.request.use((request) => {
   try {
@@ -14,6 +16,7 @@ Service.interceptors.request.use((request) => {
   }
   return request;
 });
+
 
 Service.interceptors.response.use(
   (response) => response,
@@ -50,6 +53,39 @@ let Activities = {
   },
 
 };
+
+let Tasks = {
+
+  async create(data) {
+    let serverData = {
+      name: data.name,
+      color: data.color,
+      userName: data.userName,
+      tags: data.tags
+    }
+    await Service.post('/tasks', serverData)
+    return
+  },
+
+  async getAll(usr){
+
+    let tasks = await Service.get('/tasks')
+
+    let t = []
+
+    tasks.data.forEach( (e) => {
+
+      if(e.userName == usr){
+        t.push(e)
+      }
+    
+    })
+
+    return t
+
+  }
+
+}
 
 let Sessions = {
 
@@ -143,4 +179,4 @@ let Auth = {
   
 };
 
-export { Service, Activities, Sessions, Auth };
+export { Service, Activities, Sessions, Auth, Tasks };
