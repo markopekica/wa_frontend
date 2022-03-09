@@ -87,7 +87,7 @@ let Tasks = {
 
   async updateOne(id, data) {
     console.log("id: ", id, "\ndata: ", data)
-    let response = await Service.put(`/task/${id}`, data)
+    let response = await Service.patch(`/task/${id}`, data)
     return response
   }
 

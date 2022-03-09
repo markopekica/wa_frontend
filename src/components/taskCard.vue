@@ -93,10 +93,10 @@ export default {
         l.push(e.name)
       })
       let task = {
-        addedAt: this.info.addedAt,
+        /* addedAt: this.info.addedAt,
         name: this.info.name,
         color: this.info.color,
-        userName: Auth.getUser().username,
+        userName: Auth.getUser().username, */
         tags: l
       }
       /* console.log(task) */
