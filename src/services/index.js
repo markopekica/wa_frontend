@@ -83,6 +83,12 @@ let Tasks = {
 
     return t
 
+  },
+
+  async updateOne(id, data) {
+    console.log("id: ", id, "\ndata: ", data)
+    let response = await Service.put(`/task/${id}`, data)
+    return response
   }
 
 }

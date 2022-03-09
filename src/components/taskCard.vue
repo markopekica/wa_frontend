@@ -10,13 +10,39 @@
       :style="{ color: tag.color }"
       >&nbsp;{{ tag.name }}&nbsp;</span
     >
+    <div class="edit" v-if="isEditTask">
+      <div class="task-tags">
+        <h4>edit</h4>
+        <p>choose tags:</p>
+        <ul>
+          <!-- https://stackoverflow.com/questions/43797010/dynamic-value-checkbox-vuejs-2 -->
+          <li v-for="tag in tags" v-bind:value="tag" v-bind:key="tag.name">
+            <input
+              type="checkbox"
+              v-model="chosenTags"
+              v-bind:value="tag"
+              v-bind:key="tag.name"
+            />
+            {{ tag.name }}
+          </li>
+        </ul>
+
+        <label for="">{{ tags.name }}</label>
+      </div>
+      <button type="button" v-on:click="cancelEdit()" class="btn btn-warning">
+        Cancel
+      </button>
+      <button type="button" v-on:click="saveEdit()" class="btn btn-success">
+        Save
+      </button>
+    </div>
     <div class="full-info" v-if="showFullInfo">
       <p>Added at: {{ formatDate(info.addedAt) }}</p>
 
       <button type="button" v-on:click="deleteTask()" class="btn btn-danger">
         Delete
       </button>
-      <button type="button" v-on:click="patchTask()" class="btn btn-warning">
+      <button type="button" v-on:click="editTask()" class="btn btn-warning">
         Edit
       </button>
     </div>
@@ -39,19 +65,43 @@ export default {
       },
       color: "red",
       x: [],
+      isEditTask: false,
+      chosenTags: [],
     };
   },
   methods: {
     showHideCardInfo() {
-      this.showFullInfo == false
-        ? (this.showFullInfo = true)
-        : (this.showFullInfo = false);
+      if (!this.isEditTask) {
+        this.showFullInfo == false
+          ? (this.showFullInfo = true)
+          : (this.showFullInfo = false);
+      }
     },
     deleteTask() {
       alert("delete");
     },
-    patchTask() {
-      alert("patch");
+    editTask() {
+      this.isEditTask = true;
+      /* alert("patch"); */
+    },
+    cancelEdit() {
+      this.isEditTask = false;
+    },
+    async saveEdit() {
+      let l = []
+      this.chosenTags.forEach( e => {
+        l.push(e.name)
+      })
+      let task = {
+        addedAt: this.info.addedAt,
+        name: this.info.name,
+        color: this.info.color,
+        userName: Auth.getUser().username,
+        tags: l
+      }
+      /* console.log(task) */
+      await Tasks.updateOne(this.info._id, task)
+      window.location.reload();
     },
     formatDate(timestamp) {
       /* https://stackoverflow.com/questions/13459866/javascript-change-date-into-format-of-dd-mm-yyyy */
@@ -101,6 +151,19 @@ export default {
 .tags {
   margin: 1em auto;
   padding: 0.25em;
+}
+.edit {
+  box-shadow: 1px 1px 3px 0px #111;
+  margin: 0.5em;
+  padding: 0.75em 0;
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    * {
+      margin: 0.5em;
+    }
+  }
 }
 .full-info {
   text-align: left;
