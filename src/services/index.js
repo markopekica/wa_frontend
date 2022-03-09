@@ -52,6 +52,11 @@ let Activities = {
     return jakoLose;
   },
 
+  async deleteOne(id, data) {
+    let response = await Service.delete(`/activities/${id}`, data)
+    return response
+  }
+
 };
 
 let Tasks = {

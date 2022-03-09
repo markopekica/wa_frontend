@@ -50,7 +50,7 @@
       </div>
     </div>
 
-<hr>
+<!-- <hr style="width:80%; margin:auto;"> -->
 
     <div class="task-div">
       <h2>Tasks</h2>

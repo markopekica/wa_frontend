@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { Activities } from "@/services/index.js";
 export default {
   name: "ActivityCard",
   props: ["info"],
@@ -33,8 +34,12 @@ export default {
         ? (this.showFullInfo = true)
         : (this.showFullInfo = false);
     },
-    deleteActivity() {
-      alert("delete");
+    async deleteActivity() {
+      console.log(this.info._id)
+      let id = this.info._id
+      let data = this.info
+      await Activities.deleteOne(id, data)
+      window.location.reload();
     },
     formatDate(timestamp){
       /* https://stackoverflow.com/questions/13459866/javascript-change-date-into-format-of-dd-mm-yyyy */
