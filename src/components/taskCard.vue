@@ -1,7 +1,15 @@
 <template>
   <div class="task-card" @click="showHideCardInfo">
     <h3 :style="thisStyle">{{ info.name }}</h3>
-    <span class="tags">{{ info.tags }}</span>
+    <span
+      class="tags"
+      v-for="tag in x"
+      :value="tag.name"
+      :key="tag.id"
+      :color="tag.color"
+      :style={color:tag.color}
+      >&nbsp;{{ tag.name }}&nbsp;</span
+    >
     <!-- <div class="tags">
         {{ info.tags }}
       </div> -->
@@ -17,22 +25,26 @@
 </template>
 
 <script>
+import { Activities, Tasks, Auth } from "@/services/index.js";
 export default {
   name: "TaskCard",
   props: ["info"],
   data() {
     return {
       showFullInfo: false,
-      tags: this.info.tags,
+      t: this.info.tags,
+      tags: [] /* this.info.tags, */,
       thisStyle: {
         /* https://stackoverflow.com/questions/53229804/how-to-change-style-of-background-color-using-vue-js-only */
         color: this.info.color,
       },
+      color: 'red',
+      x: []
     };
   },
   methods: {
     showHideCardInfo() {
-      console.log("tags:", this.tags)
+      this.colorTags();
       this.showFullInfo == false
         ? (this.showFullInfo = true)
         : (this.showFullInfo = false);
@@ -51,8 +63,36 @@ export default {
       );
     },
     colorTags() {
-      
-    }
+      /* console.log(this.tags) */
+    },
+  },
+  computed: {
+    async getTags() {
+      let cards = await Activities.getAll(Auth.getUser().username);
+      cards.forEach((card) => {
+        if (card.userName == Auth.state.userEmail) {
+          this.tags.push(card);
+        }
+      });
+      console.log("this.tags: ", this.tags);
+
+      console.log("t: ", this.t)
+
+      this.tags.filter(id => {
+        if( this.t.includes(id.name) ){
+          console.log("id.name", id.name)
+          this.x.push(id)
+        }
+      });
+
+      console.log("x: ", this.x)
+
+      console.log("this.tags 2: ", this.tags);
+
+    },
+  },
+  async mounted() {
+    await this.getTags;
   },
 };
 </script>
@@ -64,7 +104,6 @@ export default {
   border-radius: 6px;
   padding: 1em;
   margin: 1em auto;
-  /* float: left; */
   max-width: 300px;
 }
 .activity-card:hover {
@@ -73,6 +112,7 @@ export default {
 }
 .tags {
   margin: 1em auto;
+  padding: .25em;
 }
 .full-info {
   text-align: left;
