@@ -21,7 +21,7 @@
       <!-- <router-link class="rlink" to="#" title="gantt chart">
         <i class="bi bi-calendar-range"></i>
       </router-link> -->
-      <router-link class="rlink" to="#" title="">
+      <router-link class="rlink" to="/challenge" title="challenge">
         <i class="bi bi-award"></i>
       </router-link>
     </div>
@@ -33,7 +33,7 @@
         v-if="!authenticated"
         ><i class="bi bi-box-arrow-in-right"></i
       ></router-link>
-      <router-link class="rlink" to="#" title="a" v-if="authenticated">
+      <router-link class="rlink" to="/options" title="options" v-if="authenticated">
         <i class="bi bi-gear"></i>
       </router-link>
       <router-link class="rlink" to="" title="sign out" v-if="authenticated">

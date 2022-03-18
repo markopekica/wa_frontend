@@ -27,17 +27,27 @@ const routes = [
   {
     path: '/signUp',
     name: 'SignUp',
-    component: () => import(/* webpackChunkName: "about" */ '../views/SignUp.vue')
+    component: () => import('../views/SignUp.vue')
   },
   {
     path: '/activity',
     name: 'Activity',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Activity.vue')
+    component: () => import('../views/Activity.vue')
   },
   {
     path: '/clock',
     name: 'Clock',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Clock.vue')
+    component: () => import('../views/Clock.vue'),
+  },
+  {
+    path: '/challenge',
+    name: '/Challenge',
+    component: () => import('../views/Challenge.vue')
+  },
+  {
+    path: '/options',
+    name: '/Options',
+    component: () => import('../views/Options.vue')
   }
 ]
 
