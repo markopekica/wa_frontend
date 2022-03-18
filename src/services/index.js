@@ -94,6 +94,11 @@ let Tasks = {
     console.log("id: ", id, "\ndata: ", data)
     let response = await Service.patch(`/task/${id}`, data)
     return response
+  },
+
+  async saveTask(data) {
+    let response = await Service.post("/taskSessions", data)
+    return response
   }
 
 }
