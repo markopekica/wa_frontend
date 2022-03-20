@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { Activities, Sessions, Auth, Tasks } from "@/services";
+import { Activities, Sessions, Auth, Tasks, Options } from "@/services";
 
 export default {
   name: "Clock",
@@ -104,7 +104,7 @@ export default {
       timeInputVisible: false,
       isRest: false,
       restTime: 5,
-      focusTime: 20,
+      focusTime: 25,
       isPlay: false,
       /* isPause: false, */
       /* pausedTime: String, */
@@ -119,9 +119,9 @@ export default {
     };
   },
   async mounted() {
-    this.displayDigits();
-    await this.getOptions();
+    await this.getTags();
     await this.getTasks();
+    await this.getOptions();
     /* this.hideOptions(); */
   },
   watch: {
@@ -138,13 +138,21 @@ export default {
     },
   },
   methods: {
-    async getOptions() {
+    async getTags() {
       let o = await Activities.getAll(Auth.getUser().username);
       o.forEach((el) => this.options.push(el));
     },
     async getTasks() {
       let t = await Tasks.getAll(Auth.getUser().username);
       t.forEach((e) => this.tasks.push(e));
+    },
+    async getOptions() {
+      let options = await Options.getOptions(Auth.getUser().username);
+      if (options) {
+        this.focusTime = options.workMin;
+        this.restTime = options.restMin;
+      }
+      this.displayDigits();
     },
     /* hideOptions() {
       if(this.tagValue != undefined){
@@ -265,7 +273,6 @@ export default {
       }); */
     },
     saveTag(min) {
-      
       let tagName = document.getElementById("tag").value;
       let ses = this.utvrdiStaTrebaSejvat();
 
@@ -280,12 +287,11 @@ export default {
       Sessions.create(session).then(() => {
         /* console.log("tag sejvan"); */
         this.changeRest();
-
       });
     },
-    saveTask(min){
-      let taskName = document.getElementById("task").value
-      let ses = this.utvrdiStaTrebaSejvat( )
+    saveTask(min) {
+      let taskName = document.getElementById("task").value;
+      let ses = this.utvrdiStaTrebaSejvat();
 
       let taskSession = {
         name: taskName,
@@ -293,8 +299,8 @@ export default {
         minutes: Number(min),
         isRest: this.isRest,
         taskId: ses._id,
-        tags: ses.tags
-      }
+        tags: ses.tags,
+      };
 
       /* console.log(ses) */
 
@@ -304,12 +310,10 @@ export default {
         console.log("b: ", b)
       }) */
 
-      Tasks.saveTask(taskSession).then( () => {
+      Tasks.saveTask(taskSession).then(() => {
         /* console.log("task sejvan") */
         this.changeRest();
-
-      })
-
+      });
     },
     utvrdiStaTrebaSejvat() {
       if (this.tagValue) {
@@ -330,7 +334,6 @@ export default {
       this.isRest ? (min = this.restTime) : (min = this.focusTime);
 
       /* this.tagValue ? this.saveTag(min) : this.saveTask(min); */
-
 
       var seconds;
 
