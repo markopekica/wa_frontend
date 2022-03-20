@@ -241,7 +241,8 @@ export default {
       this.isRest ? (min = this.restTime) : (min = this.focusTime);
 
       this.tagValue ? this.saveTag(min) : this.saveTask(min);
-      if( tagValue ){
+
+      /* if( tagValue ){
         console.log("saveTag")
         this.saveTag( min )
       } else if( taskValue ){
@@ -249,7 +250,7 @@ export default {
         this.saveTask(min)
       } else {
         console.log("ne sejva se nista")
-      }
+      } */
 
       /* let session = {
         name: veryGoodName,

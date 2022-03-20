@@ -133,6 +133,49 @@ let Sessions = {
 
 };
 
+let Options = {
+
+  async save(data) {
+    /* console.log("data: ", data) */
+    /* let options = {
+      workMinutes: data.workMin,
+      restMinutes: data.restMin,
+      userName: data.userName
+    } */
+    return await Service.post("/options", data)
+  },
+
+  async getOptions(usr) {
+    let opt = await Service.get("/options")
+
+    let f
+
+    /* console.log("opt: ", opt) */
+    
+    opt.data.forEach( e => {
+      /* console.log("username: ", e.userName)
+      console.log("usr: ", usr) */
+      /* console.log(e.userName == usr) */
+      if( e.userName == usr ){
+        /* console.log("e: ", e) */
+        f = e
+        //return e; nije radilo
+      }
+    })
+
+    console.log("f: ", f)
+
+    return f
+
+  },
+
+  async updateOptions(id, data){
+    return await Service.patch(`/options/${id}`, data)
+  }
+
+}
+
+
 let Auth = {
 
   async signUp(username, password, repeatPassword) {
@@ -195,4 +238,4 @@ let Auth = {
   
 };
 
-export { Service, Activities, Sessions, Auth, Tasks };
+export { Service, Activities, Sessions, Auth, Tasks, Options };
