@@ -6,7 +6,7 @@
       <div class="work-div">
         <span>Work minutes: </span
         ><!-- &nbsp; -->
-        <input type="number" id="work-minute-input" min="0" v-model="workMin"/>
+        <input type="number" id="work-minute-input" min="0" v-model="workMin" />
       </div>
 
       <br />
@@ -22,7 +22,7 @@
       Save
     </button>
 
-    <br>
+    <br />
 
     <!-- <button type="button" class="btn btn-danger" v-on:click="saveOptions">
       Delete account
@@ -44,86 +44,76 @@ import { Options, Auth } from "@/services";
 export default {
   name: "Options",
   data() {
-      return {
-          workMin: Number,
-          restMin: Number,
-          options: this.getOptions()
-      }
+    return {
+      workMin: Number,
+      restMin: Number,
+      options: this.getOptions(),
+    };
   },
   async mounted() {
-    await this.getOptions()
+    await this.getOptions();
   },
   methods: {
-      async saveOptions( ){
+    async saveOptions() {
+      /* console.log(Number.isInteger(parseInt(this.restMin))) */
 
-        /* console.log(Number.isInteger(parseInt(this.restMin))) */
+      /* let options = await this.getOptions() */
 
-        /* let options = await this.getOptions() */
+      console.log("options: ", this.options);
 
-        console.log("options: ", this.options)
-
-        this.options == undefined ? this.save( ) : this.update( )
-        
-
-
-
-      },
-      async getOptions( ){
-        /* console.log("ok") */
-        /* console.log( await Options.getOptions( Auth.getUser().username ) ) */
-        this.options = await Options.getOptions( Auth.getUser().username )
-        this.workMin = this.options.workMin
-        this.restMin = this.options.restMin
-        /* return await Options.getOptions( Auth.getUser().username ) */
-      },
-      makeOptionObject( ){
-        return {
-          workMin: this.workMin,
-          restMin: this.restMin,
-          userName: Auth.getUser().username,
-        }
-      },
-      async save( ){
-
-        let options = this.makeOptionObject()/* {
+      this.options == undefined ? this.save() : this.update();
+    },
+    async getOptions() {
+      /* console.log("ok") */
+      /* console.log( await Options.getOptions( Auth.getUser().username ) ) */
+      this.options = await Options.getOptions(Auth.getUser().username);
+      this.workMin = this.options.workMin;
+      this.restMin = this.options.restMin;
+      /* return await Options.getOptions( Auth.getUser().username ) */
+    },
+    makeOptionObject() {
+      return {
+        workMin: this.workMin,
+        restMin: this.restMin,
+        userName: Auth.getUser().username,
+      };
+    },
+    async save() {
+      let options = this.makeOptionObject(); /* {
           workMin: this.workMin,
           restMin: this.restMin,
           userName: Auth.getUser().username,
         } */
 
-        console.log(options)
+      console.log(options);
 
-        if( Number.isInteger(parseInt(this.workMin)) && Number.isInteger(parseInt(this.restMin)) ){
-          
-          Options.save(options).then( () => {
-            window.location.reload();
-          })
-
-        }
-        
-      },
-      async update( ){
-
-        let options = this.makeOptionObject()/* {
+      if (
+        Number.isInteger(parseInt(this.workMin)) &&
+        Number.isInteger(parseInt(this.restMin))
+      ) {
+        Options.save(options).then(() => {
+          window.location.reload();
+        });
+      }
+    },
+    async update() {
+      let options = this.makeOptionObject(); /* {
           workMin: this.workMin,
           restMin: this.restMin,
           userName: Auth.getUser().username,
         } */
 
-        /* console.log("options: ", options)
+      /* console.log("options: ", options)
         console.log("id: ", this.options._id ) */
 
-        /* let r = await  */
-        Options.updateOptions( this.options._id, options ).then( () => {
-          window.location.reload();
-        })
+      /* let r = await  */
+      Options.updateOptions(this.options._id, options).then(() => {
+        window.location.reload();
+      });
 
-        /* console.log("r: ", r) */
-
-        
-
-      }
-  }
+      /* console.log("r: ", r) */
+    },
+  },
 };
 </script>
 
@@ -137,6 +127,6 @@ form {
   border-bottom-width: 1px;
 }
 .btn-danger {
-    margin: 4em auto;
+  margin: 4em auto;
 }
 </style>

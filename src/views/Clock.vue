@@ -131,7 +131,7 @@ export default {
       }
     },
     taskValue: function () {
-      console.log("bro wtf");
+      /* console.log("bro wtf"); */
       if (this.taskValue != undefined) {
         this.hideTag = true;
       }
@@ -211,7 +211,7 @@ export default {
       var timer = duration - 1,
         minutes,
         seconds;
-      let changeRest = this.changeRest;
+      /* let changeRest = this.changeRest; */
       let stop = this.stop;
       let save = this.saveSession;
       let isRest = this.isRest;

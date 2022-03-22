@@ -84,25 +84,7 @@ export default {
   },
   methods: {
     async makeDatasets() {
-      let activities = await Activities.getAll();
-      let sessions = await Sessions.getAll();
-
-      activities.data.forEach((el) => {
-        this.dataSet = [];
-        this.dataSet.data = [];
-
-        this.dataSet.label = el.name;
-        this.dataSet.backgroundColor = el.color;
-        this.dataSet.borderColor = el.color;
-
-        sessions.data.forEach((el2) => {
-          if (el.name == el2.name) {
-            this.dataSet.data.push(el2.minutes);
-          }
-        });
-
-        this.dataSets.push(this.dataSet);
-      });
+      
     },
   },
 };

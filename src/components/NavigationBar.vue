@@ -21,9 +21,9 @@
       <!-- <router-link class="rlink" to="#" title="gantt chart">
         <i class="bi bi-calendar-range"></i>
       </router-link> -->
-      <router-link class="rlink" to="/challenge" title="challenge">
+      <!-- <router-link class="rlink" to="/challenge" title="challenge">
         <i class="bi bi-award"></i>
-      </router-link>
+      </router-link> -->
     </div>
     <div class="other-icons">
       <router-link
