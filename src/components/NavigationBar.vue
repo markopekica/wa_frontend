@@ -1,14 +1,10 @@
 <template>
   <div class="nav">
     <router-link class="rlink logo" to="about" title="info">
-      <!-- <div style="font-size: 11px">logo</div> -->
-      <!-- <i class="bi bi-diamond"></i> -->
       <i class="bi bi-box"></i>
     </router-link>
     <div class="menu">
       <router-link class="rlink" to="/activity" title="activities/tasks">
-        <!-- <i class="bi bi-list-task"></i
-      > -->
         <i class="bi bi-diagram-3"></i>
       </router-link>
 
@@ -18,12 +14,6 @@
       <router-link class="rlink" to="/" title="stats">
         <i class="bi bi-bar-chart"></i>
       </router-link>
-      <!-- <router-link class="rlink" to="#" title="gantt chart">
-        <i class="bi bi-calendar-range"></i>
-      </router-link> -->
-      <!-- <router-link class="rlink" to="/challenge" title="challenge">
-        <i class="bi bi-award"></i>
-      </router-link> -->
     </div>
     <div class="other-icons">
       <router-link
@@ -33,7 +23,12 @@
         v-if="!authenticated"
         ><i class="bi bi-box-arrow-in-right"></i
       ></router-link>
-      <router-link class="rlink" to="/options" title="options" v-if="authenticated">
+      <router-link
+        class="rlink"
+        to="/options"
+        title="options"
+        v-if="authenticated"
+      >
         <i class="bi bi-gear"></i>
       </router-link>
       <router-link class="rlink" to="" title="sign out" v-if="authenticated">
@@ -123,7 +118,6 @@ export default {
     padding: 0.25em 0.5em;
   }
   .logo {
-    /* padding: 0.5em; */
     margin-bottom: 1em;
   }
   .menu,

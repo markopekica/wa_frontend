@@ -4,7 +4,7 @@ let Service = axios.create({
   /* baseURL: "https://calm-harbor-09665.herokuapp.com", */
   baseURL: "http://localhost:3000/",
   timeout: 1000,
-}); // variabla za komunikaciju s backend-om
+});
 
 Service.interceptors.request.use((request) => {
   try {
@@ -106,22 +106,13 @@ let TaskSessions = {
   async getAllForChart(tasks) {
     let t = await Service.get("/taskSessions");
     let l = [];
-    /* console.log("tasks: ", tasks) */
-    /* console.log("t: ", t) */
-    /* console.log("tasks: ", tasks) */
-    /* console.log("t: ", t); */
     tasks.forEach((o) => {
       t.data.forEach((e) => {
-        /* console.log("e: ", e) */
-        /* console.log(o._id == e.taskId) */
-
         if (o._id == e.taskId) {
-          /* console.log("tru: ") */
           l.push(e);
         }
       });
     });
-    /* console.log("l: ", l) */
     return l;
   },
 };
@@ -143,8 +134,6 @@ let Sessions = {
   async getAll(activities) {
     let ses = await Service.get("/sessions");
     let ar = [];
-    /* console.log("activities: ", activities) */
-    /* console.log("ses: ", ses); */
     ses.data.forEach((ses) => {
       activities.forEach((act) => {
         if (ses.activityId == act._id) {
@@ -152,19 +141,12 @@ let Sessions = {
         }
       });
     });
-    /* console.log("ar: ", ar) */
     return ar;
   },
 };
 
 let Options = {
   async save(data) {
-    /* console.log("data: ", data) */
-    /* let options = {
-      workMinutes: data.workMin,
-      restMinutes: data.restMin,
-      userName: data.userName
-    } */
     return await Service.post("/options", data);
   },
 
@@ -173,20 +155,11 @@ let Options = {
 
     let f;
 
-    /* console.log("opt: ", opt) */
-
     opt.data.forEach((e) => {
-      /* console.log("username: ", e.userName)
-      console.log("usr: ", usr) */
-      /* console.log(e.userName == usr) */
       if (e.userName == usr) {
-        /* console.log("e: ", e) */
         f = e;
-        //return e; nije radilo
       }
     });
-
-    /* console.log("f: ", f) */
 
     return f;
   },

@@ -50,11 +50,8 @@
       </div>
     </div>
 
-<!-- <hr style="width:80%; margin:auto;"> -->
-
     <div class="task-div">
       <h2>Tasks</h2>
-      <!-- <p><small>Can contain multiple tags</small></p> -->
       <button
         type="button"
         class="btn btn-light"
@@ -134,7 +131,7 @@ export default {
       tags: [],
       tasks: [],
       displayNewTaskForm: false,
-      chosenTags: []
+      chosenTags: [],
     };
   },
   methods: {
@@ -160,7 +157,7 @@ export default {
       return (this.displayNewTaskForm = false);
     },
     showNewTaskForm() {
-      this.chosenTags = []
+      this.chosenTags = [];
       return (this.displayNewTaskForm = true);
     },
     saveTask() {
@@ -168,7 +165,7 @@ export default {
         name: document.getElementById("taskName").value,
         color: document.getElementById("taskColor").value,
         userName: Auth.getUser().username,
-        tags: this.chosenTags
+        tags: this.chosenTags,
       };
       if (task.name != "") {
         Tasks.create(task).then(() => {
@@ -220,7 +217,6 @@ h2 {
   box-shadow: 1px 1px 1px 0px #111;
 }
 .tag-div {
-  /* box-shadow: 1px 1px 1px grey; */
   padding: 1em 0;
 }
 form {
@@ -241,8 +237,6 @@ form {
 }
 .mb-3 {
   display: flex;
-  /* flex-direction: column; */
-  /* border: 1px solid red; */
   justify-content: center;
   align-items: center;
 }
@@ -254,15 +248,13 @@ form {
 }
 
 .task-div {
-  /* border: 1px solid red; */
   padding: 1em 0;
-  /* box-shadow: 1px 1px 1px pink; */
 }
 .task-tags {
   text-align: left;
   ul {
-  list-style-type: none;
- }
+    list-style-type: none;
+  }
 }
 .group-div {
   padding: 1em 0;

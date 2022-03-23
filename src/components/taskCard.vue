@@ -82,25 +82,19 @@ export default {
     },
     editTask() {
       this.isEditTask = true;
-      /* alert("patch"); */
     },
     cancelEdit() {
       this.isEditTask = false;
     },
     async saveEdit() {
-      let l = []
-      this.chosenTags.forEach( e => {
-        l.push(e.name)
-      })
+      let l = [];
+      this.chosenTags.forEach((e) => {
+        l.push(e.name);
+      });
       let task = {
-        /* addedAt: this.info.addedAt,
-        name: this.info.name,
-        color: this.info.color,
-        userName: Auth.getUser().username, */
-        tags: l
-      }
-      /* console.log(task) */
-      await Tasks.updateOne(this.info._id, task)
+        tags: l,
+      };
+      await Tasks.updateOne(this.info._id, task);
       window.location.reload();
     },
     formatDate(timestamp) {

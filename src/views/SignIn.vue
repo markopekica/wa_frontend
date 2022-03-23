@@ -26,9 +26,7 @@
           v-model="password"
         />
       </div>
-      <button type="submit" class="btn btn-primary">
-        Sign in
-      </button>
+      <button type="submit" class="btn btn-primary">Sign in</button>
     </form>
     <div class="singup-link-div">
       Don't have an account?
@@ -46,19 +44,18 @@ export default {
     return {
       email: "",
       password: "",
-      eMsg: ""
+      eMsg: "",
     };
   },
   methods: {
     async signIn() {
       let success = await Auth.signIn(this.email, this.password);
-      console.log("rezultat prijave", success)
+      console.log("rezultat prijave", success);
 
-      if( success == true ){
-        await this.$router.push({ name: 'Stats' })
-        window.location.reload()
+      if (success == true) {
+        await this.$router.push({ name: "Stats" });
+        window.location.reload();
       }
-      
     },
   },
 };
