@@ -4,16 +4,14 @@
 
     <form action="">
       <div class="work-div">
-        <span>Work minutes: </span
-        ><!-- &nbsp; -->
+        <span>Work minutes: </span>
         <input type="number" id="work-minute-input" min="0" v-model="workMin" />
       </div>
 
       <br />
 
       <div class="rest">
-        <span>Rest minutes: </span
-        ><!-- &nbsp; -->
+        <span>Rest minutes: </span>
         <input type="number" id="rest-minute-input" min="0" v-model="restMin" />
       </div>
     </form>
@@ -23,19 +21,6 @@
     </button>
 
     <br />
-
-    <!-- <button type="button" class="btn btn-danger" v-on:click="saveOptions">
-      Delete account
-    </button> -->
-
-    <!-- <div>
-        <div>
-          workMin: {{ this.workMin }}
-        </div>
-        <div>
-          restMin: {{ this.restMin }}
-        </div>
-    </div> -->
   </div>
 </template>
 
@@ -55,21 +40,12 @@ export default {
   },
   methods: {
     async saveOptions() {
-      /* console.log(Number.isInteger(parseInt(this.restMin))) */
-
-      /* let options = await this.getOptions() */
-
-      console.log("options: ", this.options);
-
       this.options == undefined ? this.save() : this.update();
     },
     async getOptions() {
-      /* console.log("ok") */
-      /* console.log( await Options.getOptions( Auth.getUser().username ) ) */
       this.options = await Options.getOptions(Auth.getUser().username);
       this.workMin = this.options.workMin;
       this.restMin = this.options.restMin;
-      /* return await Options.getOptions( Auth.getUser().username ) */
     },
     makeOptionObject() {
       return {
@@ -79,13 +55,7 @@ export default {
       };
     },
     async save() {
-      let options = this.makeOptionObject(); /* {
-          workMin: this.workMin,
-          restMin: this.restMin,
-          userName: Auth.getUser().username,
-        } */
-
-      console.log(options);
+      let options = this.makeOptionObject();
 
       if (
         Number.isInteger(parseInt(this.workMin)) &&
@@ -97,21 +67,10 @@ export default {
       }
     },
     async update() {
-      let options = this.makeOptionObject(); /* {
-          workMin: this.workMin,
-          restMin: this.restMin,
-          userName: Auth.getUser().username,
-        } */
-
-      /* console.log("options: ", options)
-        console.log("id: ", this.options._id ) */
-
-      /* let r = await  */
+      let options = this.makeOptionObject();
       Options.updateOptions(this.options._id, options).then(() => {
         window.location.reload();
       });
-
-      /* console.log("r: ", r) */
     },
   },
 };

@@ -21,7 +21,7 @@ export default {
           data: this.da,
           backgroundColor: [],
           borderColor: [],
-        }
+        },
       ],
       options: [],
     };
@@ -35,7 +35,6 @@ export default {
     const myChart = new Chart(ctx, {
       type: "bar",
       data: {
-        /* labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"], */
         labels: this.labels,
         datasets: [
           {
@@ -79,7 +78,6 @@ export default {
   },
   methods: {
     async getLabels() {
-
       let l = [];
       let r = await Activities.getAll(Auth.getUser().username);
 
@@ -89,18 +87,11 @@ export default {
       });
 
       this.labels = l;
-      
-
     },
     async getValues() {
-
       let data = [];
       let i = 0;
-      /* console.log("this.options barChart: ", this.options) */
       let r = await Sessions.getAll(this.options);
-      /* console.log("this.map: ", this.map) */
-
-      /* console.log("r: ", r) */
 
       r.forEach((element) => {
         for (let key of this.map.keys()) {
@@ -118,13 +109,10 @@ export default {
       }
 
       this.da = data;
-
     },
     async getOptions() {
       let o = await Activities.getAll(Auth.getUser().username);
       o.forEach((el) => this.options.push(el));
-      /* console.log("this.options barChart: ", this.options) */
-
     },
   },
 };

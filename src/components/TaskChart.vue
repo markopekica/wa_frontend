@@ -29,14 +29,12 @@ export default {
   async mounted() {
     await this.getOptions();
     await this.getLabels2();
-
     await this.getValues();
 
     const ctx = document.getElementById("myChart").getContext("2d");
     const myChart = new Chart(ctx, {
       type: "bar",
       data: {
-        /* labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"], */
         labels: this.labels,
         datasets: [
           {
@@ -83,69 +81,38 @@ export default {
       let l = [];
       let r = await Tasks.getAll(Auth.getUser().username);
 
-      /* console.log(r) */
-
       this.da = r;
 
       r.forEach((element) => {
-        /* console.log("element: ", element) */
         l.push(element.name);
         this.map2.set(element.name);
       });
 
       this.labels = l;
-
-      /* console.log("this.map", this.map2) */
     },
     async getValues() {
       let data = [];
       let i = 0;
-      /* console.log("this.optione: ", this.options) */
       let r = await TaskSessions.getAllForChart(this.options);
 
-      /* console.log("r: ", r) */
-
-      /* console.log("r: ", r)
-
-      console.log("da: ", this.da) */
-
       r.forEach((element) => {
-        /* console.log("wtf")
-          console.log("element: ", element) */
-
-        /* console.log("this.map.kezs ", this.map2) */
-        /* console.log("element: ", element) */
-        /* element.data.forEach((j) => { */
-
         for (let key of this.map2.keys()) {
           i = 0;
-          /* console.log("key: ", key)
-          console.log("element.data: ", element.data) */
-          /* console.log(element); */
-
-          /* console.log("2") */
           if (key == element.name && element.isRest == false) {
             this.map2.get(key) === undefined
               ? (i = 0)
               : (i = this.map2.get(key));
-            /* console.log(j)
-                console.log("j.minutes: ", j.minutes) */
             i += element.minutes;
             this.map2.set(key, i);
           }
         }
-        /* }); */
       });
 
-      /* console.log("this.map2: ", this.map2) */
-
       for (const value of this.map2.values()) {
-        /* console.log("value :", value); */
         data.push(value);
       }
 
       this.da = data;
-      /* console.log("this.da: ", this.da) */
     },
     async getOptions() {
       let o = await Tasks.getAll(Auth.getUser().username);

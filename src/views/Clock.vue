@@ -1,22 +1,6 @@
 <template>
   <div class="clock">
-    <h1>It's time</h1>
-    <!-- <form>
-
-    <div class="radios">
-
-      <div>
-      <input type="radio" id="tag-radio" name="selected" value="tag" /><br>
-      <label for="tag">Tag</label>
-    </div>
-
-    <div>
-      <input type="radio" id="task-radio" name="selected" value="task" /><br>
-      <label for="task">Task</label>
-    </div>
-    </div>
-
-</form> -->
+    <h1>Get some</h1>
 
     <div class="select-tag" v-if="!hideTag">
       <label for="tag"><small>Choose tag: &nbsp;</small></label>
@@ -84,7 +68,6 @@
         v-if="isRest"
       ></div>
       <div class="clock-buttons">
-        <!-- <i class="bi bi-pause-circle" v-on:click="pause"></i> -->
         <i class="bi bi-play-circle" v-on:click="startTime" v-if="!isPlay"></i>
         <i class="bi bi-stop-circle" v-on:click="stop" v-if="isPlay"></i>
       </div>
@@ -106,8 +89,6 @@ export default {
       restTime: 5,
       focusTime: 25,
       isPlay: false,
-      /* isPause: false, */
-      /* pausedTime: String, */
       i: Number, //  interval id
       options: [],
       startedAt: Date,
@@ -122,7 +103,6 @@ export default {
     await this.getTags();
     await this.getTasks();
     await this.getOptions();
-    /* this.hideOptions(); */
   },
   watch: {
     tagValue: function () {
@@ -131,7 +111,6 @@ export default {
       }
     },
     taskValue: function () {
-      /* console.log("bro wtf"); */
       if (this.taskValue != undefined) {
         this.hideTag = true;
       }
@@ -154,14 +133,6 @@ export default {
       }
       this.displayDigits();
     },
-    /* hideOptions() {
-      if(this.tagValue != undefined){
-        this.hideTask = true
-      }
-      if(this.taskValue != undefined){
-        this.hideTag = true
-      }
-    }, */
     displayDigits() {
       this.isRest
         ? (document.getElementById("rest-time-digits").textContent =
@@ -211,7 +182,6 @@ export default {
       var timer = duration - 1,
         minutes,
         seconds;
-      /* let changeRest = this.changeRest; */
       let stop = this.stop;
       let save = this.saveSession;
       let isRest = this.isRest;
@@ -239,38 +209,11 @@ export default {
       this.i = setInterval(interval, 1000);
     },
     saveSession() {
-      /* let veryGoodName = document.getElementById("tag").value;
-      let ses = this.options.find((e) => e.name == veryGoodName); */
-
-      /* let ses = this.utvrdiStaTrebaSejvat(); */
-
       let min;
 
       this.isRest ? (min = this.restTime) : (min = this.focusTime);
 
       this.tagValue ? this.saveTag(min) : this.saveTask(min);
-
-      /* if( tagValue ){
-        console.log("saveTag")
-        this.saveTag( min )
-      } else if( taskValue ){
-        console.log("saveTask")
-        this.saveTask(min)
-      } else {
-        console.log("ne sejva se nista")
-      } */
-
-      /* let session = {
-        name: veryGoodName,
-        startTime: this.startedAt,
-        minutes: Number(min),
-        isRest: this.isRest,
-        activityId: ses._id,
-      };
-
-      Sessions.create(session).then(() => {
-        console.log("ok");
-      }); */
     },
     saveTag(min) {
       let tagName = document.getElementById("tag").value;
@@ -285,7 +228,6 @@ export default {
       };
 
       Sessions.create(session).then(() => {
-        /* console.log("tag sejvan"); */
         this.changeRest();
       });
     },
@@ -302,38 +244,22 @@ export default {
         tags: ses.tags,
       };
 
-      /* console.log(ses) */
-
-      /* ses.tags.forEach( el => {
-        console.log(el)
-        let b = this.options.find((e) => e.name == el);
-        console.log("b: ", b)
-      }) */
-
       Tasks.saveTask(taskSession).then(() => {
-        /* console.log("task sejvan") */
         this.changeRest();
       });
     },
     utvrdiStaTrebaSejvat() {
       if (this.tagValue) {
-        /* console.log("tag: ", this.tagValue); */
         return this.options.find((e) => e.name == this.tagValue);
       }
       if (this.taskValue) {
-        /* console.log("task: ", this.taskValue); */
         return this.tasks.find((e) => e.name == this.taskValue);
       }
     },
     startTime() {
-      /* let f = this.utvrdiStaTrebaSejvat();
-
-      console.log(f); */
       let min;
 
       this.isRest ? (min = this.restTime) : (min = this.focusTime);
-
-      /* this.tagValue ? this.saveTag(min) : this.saveTask(min); */
 
       var seconds;
 
@@ -416,7 +342,6 @@ export default {
 }
 .focus-minutes:hover,
 .rest-minutes:hover {
-  /* margin: 1em auto; */
   opacity: 0.7;
   cursor: pointer;
 }
@@ -451,9 +376,6 @@ export default {
 .bi:hover {
   cursor: pointer;
 }
-/* .bi-pause-circle {
-  color: darkorange;
-} */
 .bi-play-circle {
   color: green;
   font-size: 120%;
