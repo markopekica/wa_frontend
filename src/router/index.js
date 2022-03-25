@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Stats from "../views/Stats.vue";
+import Stats from "../views/stats.vue";
 import { Auth } from "@/services";
 
 Vue.use(VueRouter);
@@ -8,42 +8,42 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Stats",
+    name: "stats",
     component: Stats,
   },
   {
     path: "/about",
-    name: "About",
+    name: "about",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "about" */ "../views/about.vue"),
   },
   {
     path: "/signIn",
     name: "SignIn",
-    component: () => import("../views/SignIn.vue"),
+    component: () => import("../views/signin.vue"),
   },
   {
     path: "/signUp",
     name: "SignUp",
-    component: () => import("../views/SignUp.vue"),
+    component: () => import("../views/signup.vue"),
   },
   {
     path: "/activity",
     name: "Activity",
-    component: () => import("../views/Activity.vue"),
+    component: () => import("../views/activity.vue"),
   },
   {
     path: "/clock",
     name: "Clock",
-    component: () => import("../views/Clock.vue"),
+    component: () => import("../views/clock.vue"),
   },
   {
     path: "/options",
     name: "/Options",
-    component: () => import("../views/Options.vue"),
+    component: () => import("../views/options.vue"),
   },
 ];
 

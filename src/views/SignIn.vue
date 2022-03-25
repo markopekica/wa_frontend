@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { Auth } from "@/services";
+import { Auth } from "@/services/index.js";
 
 export default {
   name: "SignIn",

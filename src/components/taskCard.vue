@@ -15,7 +15,7 @@
         <h4>edit</h4>
         <p>choose tags:</p>
         <ul>
-          <!-- https://stackoverflow.com/questions/43797010/dynamic-value-checkbox-vuejs-2 -->
+          <!--- https://stackoverflow.com/questions/43797010/dynamic-value-checkbox-vuejs-2 -->
           <li v-for="tag in tags" v-bind:value="tag" v-bind:key="tag.name">
             <input
               type="checkbox"

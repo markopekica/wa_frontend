@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import BarChart from "@/components/BarChart.vue";
-import TaskChart from "@/components/TaskChart.vue";
+import BarChart from "@/components/barchart.vue";
+import TaskChart from "@/components/taskchart.vue";
 
 export default {
   name: "Stats",

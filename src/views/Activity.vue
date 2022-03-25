@@ -115,9 +115,9 @@
 </template>
 
 <script>
-import ActivityCard from "@/components/ActivityCard.vue";
+import ActivityCard from "@/components/activitycard.vue";
 import { Activities, Tasks, Auth } from "@/services/index.js";
-import TaskCard from "@/components/TaskCard.vue";
+import TaskCard from "@/components/taskcard.vue";
 
 export default {
   name: "Activity",
